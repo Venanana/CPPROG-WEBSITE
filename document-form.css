@@ -1,0 +1,211 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Segoe UI, sans-serif;
+}
+
+body {
+    background: #f2f2f2;
+    color: #222;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 30px;
+    color: #fff;
+    background: linear-gradient(120deg, #65c466, #3f2b96);
+}
+
+.top-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.barangay-logo {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+}
+
+.menu-icon {
+    font-size: 26px;
+    line-height: 1;
+}
+
+.top-left h1 {
+    font-size: 34px;
+    margin-bottom: 4px;
+}
+
+.top-left p {
+    font-size: 14px;
+    opacity: 0.95;
+}
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #111;
+    background: #fff;
+    border: 3px solid #111;
+    border-radius: 40px;
+    padding: 8px 18px;
+}
+
+.profile-card img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
+
+.profile-card h2 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.profile-card p {
+    font-size: 24px;
+}
+
+.page {
+    max-width: 1100px;
+    margin: 20px auto 40px;
+    padding: 0 16px;
+}
+
+.request-form {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 22px;
+}
+
+.request-form h3 {
+    font-size: 30px;
+    margin: 20px 0 12px;
+}
+
+label {
+    display: block;
+}
+
+label span {
+    display: block;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    border: 1px solid #d3d3d3;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 24px;
+    outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #65c466;
+    box-shadow: 0 0 0 3px rgba(101, 196, 102, 0.2);
+}
+
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.full-width {
+    margin-top: 14px;
+}
+
+.upload-box {
+    border: 2px dashed #b8dcb8;
+    border-radius: 8px;
+    padding: 12px;
+    background: #f7fff7;
+}
+
+.upload-box input[type="file"] {
+    border: 0;
+    padding: 0;
+    font-size: 21px;
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 12px 24px;
+    font-size: 24px;
+}
+
+.btn-cancel {
+    background: #f0f0f0;
+    color: #222;
+    border: 1px solid #d0d0d0;
+}
+
+.btn-submit {
+    background: #65c466;
+    color: #fff;
+}
+
+.btn-submit:hover {
+    background: #4ea957;
+}
+
+@media (max-width: 900px) {
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .top-left h1 {
+        font-size: 28px;
+    }
+
+    .profile-card h2,
+    .profile-card p {
+        font-size: 18px;
+    }
+
+    .request-form h3 {
+        font-size: 26px;
+    }
+
+    label span {
+        font-size: 22px;
+    }
+
+    input,
+    select,
+    textarea,
+    .upload-box input[type="file"],
+    button {
+        font-size: 18px;
+    }
+
+    .two-col {
+        grid-template-columns: 1fr;
+    }
+}

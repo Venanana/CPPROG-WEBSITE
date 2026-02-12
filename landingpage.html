@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Dashboard</title>
+    <link rel="stylesheet" href="landingpage.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="left-header">
+            <div class="menu"></div>
+            <img class="barangay-logo" src="barangay-logo.jpg" alt="Barangay logo">
+            <h2>Barangay Request Service System</h2>
+        </div>
+
+        <div class="right-header">
+            <div class="notification-wrap">
+                <button class="notification-btn" onclick="toggleNotifications()">Notifications <span id="notifCount" class="notif-count">0</span></button>
+                <div id="notificationPanel" class="notification-panel">
+                    <h4>Updates</h4>
+                    <ul id="notificationList"></ul>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <img src="https://via.placeholder.com/50" alt="profile">
+                <div>
+                    <h4>Resident User</h4>
+                    <p>Resident</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li class="active">Dashboard</li>
+                <li onclick="window.location.href='aboutus.html'">About Us</li>
+                <li onclick="openLogoutModal()">Logout</li>
+            </ul>
+        </aside>
+
+        <main class="main">
+            <h1>Welcome to your Dashboard!</h1>
+
+            <div class="cards">
+                <div id="allCard" class="card clickable-card">
+                    <h2 id="allCount">0</h2>
+                    <p>Total Requests</p>
+                </div>
+                <div id="pendingCard" class="card pending clickable-card">
+                    <h2 id="pendingCount">0</h2>
+                    <p>Pending</p>
+                </div>
+                <div id="approvedCard" class="card approved clickable-card">
+                    <h2 id="approvedCount">0</h2>
+                    <p>Approved</p>
+                </div>
+            </div>
+
+            <div class="quick-stats">
+                <div class="mini-stat">
+                    <span>Pending Today</span>
+                    <strong id="pendingTodayCount">0</strong>
+                </div>
+                <div class="mini-stat">
+                    <span>Approved This Week</span>
+                    <strong id="approvedWeekCount">0</strong>
+                </div>
+            </div>
+
+            <button class="new-btn" onclick="openRequestTypeModal()">+ New Request</button>
+
+            <section class="dashboard-grid">
+                <div class="table-section">
+                    <h2 id="requestTableTitle">All Requests</h2>
+
+                    <div class="table-controls">
+                        <input id="searchInput" type="text" placeholder="Search user or request type">
+                        <select id="typeFilter">
+                            <option value="">All Types</option>
+                            <option>Barangay Clearance</option>
+                            <option>Certification of Indigency</option>
+                            <option>Barangay ID</option>
+                        </select>
+                        <select id="statusFilter">
+                            <option value="">All Status</option>
+                            <option>Pending</option>
+                            <option>Approved</option>
+                            <option>Rejected</option>
+                            <option>Cancelled</option>
+                        </select>
+                        <input id="dateFilter" type="date">
+                        <button class="clear-btn" onclick="clearFilters()">Clear</button>
+                    </div>
+
+                    <table>
+                        <tr>
+                            <th>Requested By</th>
+                            <th>Request Type</th>
+                            <th>Status</th>
+                            <th>Submitted Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tbody id="requestsTableBody"></tbody>
+                    </table>
+                </div>
+
+                <aside class="activity-panel">
+                    <h3>Recent Activity</h3>
+                    <ul id="activityList"></ul>
+                </aside>
+            </section>
+        </main>
+    </div>
+
+    <div id="logoutModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Confirm Logout</h3>
+            <p>Are you sure you want to logout?</p>
+            <div class="modal-actions">
+                <button class="modal-no" onclick="closeLogoutModal()">No</button>
+                <button class="modal-yes" onclick="confirmLogout()">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="requestTypeModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Select Request Type</h3>
+            <p>What type of request do you want to file?</p>
+            <div class="request-type-list">
+                <button class="request-type-btn" onclick="goToRequestForm('Barangay Clearance')">Barangay Clearance</button>
+                <button class="request-type-btn" onclick="goToRequestForm('Certification of Indigency')">Certification of Indigency</button>
+                <button class="request-type-btn" onclick="goToRequestForm('Barangay ID')">Barangay ID</button>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-no" onclick="closeRequestTypeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="viewModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Request Details</h3>
+            <div id="viewContent" class="view-content"></div>
+            <div class="modal-actions">
+                <button class="modal-no" onclick="closeViewModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const REQUESTS_KEY = "barangay_requests_v1";
+        const NOTIFS_KEY = "barangay_notifications_v1";
+        const ACTIVITY_KEY = "barangay_activity_v1";
+
+        const defaultRequests = [
+            { id: "r1", user: "Resident User", type: "Barangay Clearance", status: "Pending", date: "2026-02-10", purpose: "Employment requirement" },
+            { id: "r2", user: "Maria Santos", type: "Certification of Indigency", status: "Approved", date: "2026-02-09", purpose: "Medical assistance" },
+            { id: "r3", user: "Juan Dela Cruz", type: "Barangay ID", status: "Rejected", date: "2026-02-08", purpose: "Identification update" }
+        ];
+
+        let requests = [];
+        let notifications = [];
+        let activities = [];
+        let activeStatusFilter = "";
+
+        function todayISO() {
+            return new Date().toISOString().slice(0, 10);
+        }
+
+        function startOfWeekISO() {
+            const date = new Date();
+            const day = date.getDay();
+            const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+            const monday = new Date(date.setDate(diff));
+            return monday.toISOString().slice(0, 10);
+        }
+
+        function loadData() {
+            const storedRequests = JSON.parse(localStorage.getItem(REQUESTS_KEY) || "null");
+            const storedNotifs = JSON.parse(localStorage.getItem(NOTIFS_KEY) || "null");
+            const storedActivity = JSON.parse(localStorage.getItem(ACTIVITY_KEY) || "null");
+
+            requests = storedRequests && storedRequests.length ? storedRequests : defaultRequests;
+            notifications = storedNotifs && storedNotifs.length ? storedNotifs : [
+                { message: "Request r2 was approved.", date: "2026-02-09", read: false },
+                { message: "Request r3 was rejected.", date: "2026-02-08", read: false }
+            ];
+            activities = storedActivity && storedActivity.length ? storedActivity : [
+                { message: "Maria Santos request approved.", date: "2026-02-09" },
+                { message: "Juan Dela Cruz request rejected.", date: "2026-02-08" }
+            ];
+
+            saveData();
+        }
+
+        function saveData() {
+            localStorage.setItem(REQUESTS_KEY, JSON.stringify(requests));
+            localStorage.setItem(NOTIFS_KEY, JSON.stringify(notifications));
+            localStorage.setItem(ACTIVITY_KEY, JSON.stringify(activities));
+        }
+
+        function addActivity(message) {
+            activities.unshift({ message, date: todayISO() });
+            activities = activities.slice(0, 12);
+        }
+
+        function addNotification(message) {
+            notifications.unshift({ message, date: todayISO(), read: false });
+            notifications = notifications.slice(0, 12);
+        }
+
+        function statusClass(status) {
+            return `status-${status.toLowerCase()}`;
+        }
+
+        function setActiveCard(cardId) {
+            document.querySelectorAll(".clickable-card").forEach(card => card.classList.remove("filter-active"));
+            document.getElementById(cardId).classList.add("filter-active");
+        }
+
+        function renderCounts() {
+            const pending = requests.filter(item => item.status === "Pending").length;
+            const approved = requests.filter(item => item.status === "Approved").length;
+            const pendingToday = requests.filter(item => item.status === "Pending" && item.date === todayISO()).length;
+            const approvedThisWeek = requests.filter(item => item.status === "Approved" && item.date >= startOfWeekISO()).length;
+
+            document.getElementById("allCount").textContent = requests.length;
+            document.getElementById("pendingCount").textContent = pending;
+            document.getElementById("approvedCount").textContent = approved;
+            document.getElementById("pendingTodayCount").textContent = pendingToday;
+            document.getElementById("approvedWeekCount").textContent = approvedThisWeek;
+        }
+
+        function renderNotifications() {
+            const unread = notifications.filter(item => !item.read).length;
+            const list = document.getElementById("notificationList");
+            document.getElementById("notifCount").textContent = unread;
+
+            if (!notifications.length) {
+                list.innerHTML = "<li class='empty-note'>No notifications.</li>";
+                return;
+            }
+
+            list.innerHTML = notifications.slice(0, 6).map(item => `
+                <li class="${item.read ? "" : "notif-unread"}">${item.message}<small>${item.date}</small></li>
+            `).join("");
+        }
+
+        function renderActivity() {
+            const list = document.getElementById("activityList");
+            if (!activities.length) {
+                list.innerHTML = "<li class='empty-note'>No recent activity.</li>";
+                return;
+            }
+
+            list.innerHTML = activities.slice(0, 8).map(item => `
+                <li>${item.message}<small>${item.date}</small></li>
+            `).join("");
+        }
+
+        function applyFilters(rows) {
+            const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+            const type = document.getElementById("typeFilter").value;
+            const status = document.getElementById("statusFilter").value || activeStatusFilter;
+            const date = document.getElementById("dateFilter").value;
+
+            return rows.filter(item => {
+                const matchesKeyword = !keyword || item.user.toLowerCase().includes(keyword) || item.type.toLowerCase().includes(keyword);
+                const matchesType = !type || item.type === type;
+                const matchesStatus = !status || item.status === status;
+                const matchesDate = !date || item.date === date;
+                return matchesKeyword && matchesType && matchesStatus && matchesDate;
+            });
+        }
+
+        function renderTable() {
+            const body = document.getElementById("requestsTableBody");
+            body.innerHTML = "<tr><td colspan='5' class='empty'>Loading requests...</td></tr>";
+
+            window.setTimeout(function () {
+                const filtered = applyFilters(requests);
+
+                if (!filtered.length) {
+                    body.innerHTML = "<tr><td colspan='5' class='empty'>No requests found for your current filters.</td></tr>";
+                    return;
+                }
+
+                body.innerHTML = filtered.map(item => `
+                    <tr>
+                        <td>${item.user}</td>
+                        <td>${item.type}</td>
+                        <td><span class="status-badge ${statusClass(item.status)}">${item.status}</span></td>
+                        <td>${item.date}</td>
+                        <td>
+                            <div class="row-actions">
+                                <button class="table-btn view-btn" onclick="viewRequest('${item.id}')">View</button>
+                                <button class="table-btn download-btn" onclick="downloadRequest('${item.id}')">Download</button>
+                                <button class="table-btn cancel-btn" ${item.status !== "Pending" ? "disabled" : ""} onclick="cancelRequest('${item.id}')">Cancel</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join("");
+            }, 250);
+        }
+
+        function updateTableTitle() {
+            const title = document.getElementById("requestTableTitle");
+            if (activeStatusFilter === "Pending") {
+                title.textContent = "Pending Requests of Users";
+            } else if (activeStatusFilter === "Approved") {
+                title.textContent = "Approved Requests of Users";
+            } else {
+                title.textContent = "All Requests";
+            }
+        }
+
+        function filterByStatus(status, cardId) {
+            activeStatusFilter = status;
+            document.getElementById("statusFilter").value = "";
+            setActiveCard(cardId);
+            updateTableTitle();
+            renderTable();
+        }
+
+        function clearFilters() {
+            document.getElementById("searchInput").value = "";
+            document.getElementById("typeFilter").value = "";
+            document.getElementById("statusFilter").value = "";
+            document.getElementById("dateFilter").value = "";
+            filterByStatus("", "allCard");
+        }
+
+        function findRequestById(id) {
+            return requests.find(item => item.id === id);
+        }
+
+        function viewRequest(id) {
+            const request = findRequestById(id);
+            if (!request) return;
+            document.getElementById("viewContent").innerHTML = `
+                <p><strong>Requested By:</strong> ${request.user}</p>
+                <p><strong>Request Type:</strong> ${request.type}</p>
+                <p><strong>Status:</strong> ${request.status}</p>
+                <p><strong>Date:</strong> ${request.date}</p>
+                <p><strong>Purpose:</strong> ${request.purpose || "N/A"}</p>
+            `;
+            document.getElementById("viewModal").classList.add("show");
+        }
+
+        function closeViewModal() {
+            document.getElementById("viewModal").classList.remove("show");
+        }
+
+        function downloadRequest(id) {
+            const request = findRequestById(id);
+            if (!request) return;
+            const content = [
+                "Barangay Request Summary",
+                `ID: ${request.id}`,
+                `Requested By: ${request.user}`,
+                `Type: ${request.type}`,
+                `Status: ${request.status}`,
+                `Date: ${request.date}`,
+                `Purpose: ${request.purpose || "N/A"}`
+            ].join("\n");
+
+            const blob = new Blob([content], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${request.id}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        function cancelRequest(id) {
+            const request = findRequestById(id);
+            if (!request || request.status !== "Pending") return;
+            const confirmed = window.confirm("Cancel this pending request?");
+            if (!confirmed) return;
+
+            request.status = "Cancelled";
+            addActivity(`${request.user} cancelled ${request.type}.`);
+            addNotification(`Request ${request.id} was cancelled.`);
+            saveData();
+            renderAll();
+        }
+
+        function renderAll() {
+            renderCounts();
+            renderNotifications();
+            renderActivity();
+            updateTableTitle();
+            renderTable();
+        }
+
+        document.getElementById("allCard").addEventListener("click", function () {
+            filterByStatus("", "allCard");
+        });
+        document.getElementById("pendingCard").addEventListener("click", function () {
+            filterByStatus("Pending", "pendingCard");
+        });
+        document.getElementById("approvedCard").addEventListener("click", function () {
+            filterByStatus("Approved", "approvedCard");
+        });
+        document.getElementById("searchInput").addEventListener("input", renderTable);
+        document.getElementById("typeFilter").addEventListener("change", renderTable);
+        document.getElementById("statusFilter").addEventListener("change", function () {
+            activeStatusFilter = "";
+            document.querySelectorAll(".clickable-card").forEach(card => card.classList.remove("filter-active"));
+            renderTable();
+            updateTableTitle();
+        });
+        document.getElementById("dateFilter").addEventListener("change", renderTable);
+
+        function openLogoutModal() {
+            document.getElementById("logoutModal").classList.add("show");
+        }
+
+        function closeLogoutModal() {
+            document.getElementById("logoutModal").classList.remove("show");
+        }
+
+        function confirmLogout() {
+            window.location.href = "login.html";
+        }
+
+        function openRequestTypeModal() {
+            document.getElementById("requestTypeModal").classList.add("show");
+        }
+
+        function closeRequestTypeModal() {
+            document.getElementById("requestTypeModal").classList.remove("show");
+        }
+
+        function goToRequestForm(requestType) {
+            const encodedType = encodeURIComponent(requestType);
+            window.location.href = `document-form.html?type=${encodedType}`;
+        }
+
+        function toggleNotifications() {
+            const panel = document.getElementById("notificationPanel");
+            panel.classList.toggle("show-panel");
+            if (panel.classList.contains("show-panel")) {
+                notifications = notifications.map(item => ({ ...item, read: true }));
+                saveData();
+                renderNotifications();
+            }
+        }
+
+        document.addEventListener("click", function (event) {
+            const wrap = document.querySelector(".notification-wrap");
+            if (!wrap.contains(event.target)) {
+                document.getElementById("notificationPanel").classList.remove("show-panel");
+            }
+        });
+
+        loadData();
+        setActiveCard("allCard");
+        renderAll();
+    </script>
+</body>
+
+</html>
