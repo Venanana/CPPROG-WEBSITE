@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill Up Form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="document-form.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="top-left">
+            <img id="brandLogo" class="barangay-logo" src="barangay-logo.jpg" alt="Barangay logo">
+            <div>
+                <h1 id="systemTitle">Fill the Form</h1>
+                <p>Fill out the form below to request an available document.</p>
+            </div>
+        </div>
+        <div class="profile-wrap">
+            <div class="profile-card">
+                <img src="https://via.placeholder.com/64" alt="Resident profile">
+            </div>
+            <p class="profile-label">User</p>
+        </div>
+    </header>
+
+    <main class="page">
+        <form id="requestForm" class="request-form" action="#" method="post" enctype="multipart/form-data">
+            <label class="full-width">
+                <span>Select Document Type</span>
+                <select id="documentType" name="document_type" required>
+                    <option value="" selected disabled>Choose document type</option>
+                </select>
+            </label>
+
+            <h3>Resident Information</h3>
+
+            <div class="two-col">
+                <label>
+                    <span>Full Name *</span>
+                    <input id="fullName" type="text" name="full_name" placeholder="Enter your full name" required>
+                </label>
+                <label>
+                    <span id="addressLabel">Address *</span>
+                    <input id="address" type="text" name="address" placeholder="Enter your complete address" required>
+                </label>
+            </div>
+
+            <label class="full-width">
+                <span id="contactLabel">Contact Number *</span>
+                <input id="contact" type="tel" name="contact" inputmode="numeric" minlength="11" maxlength="11" pattern="^09\d{9}$" placeholder="09XXXXXXXXX" title="Use 09XXXXXXXXX format" required>
+            </label>
+
+            <label class="full-width">
+                <span id="purposeLabel">Purpose of Request *</span>
+                <textarea id="purpose" name="purpose" rows="4" placeholder="Enter the purpose of your request" required></textarea>
+            </label>
+
+            <label class="upload-box full-width">
+                <span id="attachmentLabel">Upload supporting document (optional)</span>
+                <input id="supportingFile" type="file" name="supporting_file">
+            </label>
+
+            <div class="actions">
+                <button type="button" class="btn-cancel" onclick="window.location.href='landingpage.html'">Back to Dashboard</button>
+                <button type="submit" class="btn-submit">Submit Request</button>
+            </div>
+        </form>
+    </main>
+
+    <div id="successNotice" class="success-overlay" aria-live="polite">
+        <div class="success-card">
+            <div class="success-icon">&#10003;</div>
+            <h3>Request Submitted Successfully</h3>
+            <p>Your request was sent successfully.</p>
+            <div class="success-actions">
+                <button id="cancelNoticeBtn" type="button" class="btn-cancel-notice">Cancel</button>
+                <button id="goHomeBtn" type="button" class="btn-home">Go to Homepage</button>
+            </div>
+        </div>
+    </div>
+
+        <script src="api-client.js"></script>
+        <script src="document-form.js"></script>
+</body>
+
+</html>
+
+
+

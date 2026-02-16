@@ -5,6 +5,8 @@
   "description": "Express backend for Barangay Request System",
   "main": "src/server.js",
   "scripts": {
+    "sync-public": "node scripts/sync-public.js",
+    "postinstall": "npm run sync-public",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "check": "node --check src/server.js"

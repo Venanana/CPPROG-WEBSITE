@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="user-settings.css">
+</head>
+
+<body>
+    <div class="page">
+        <header class="topbar">
+            <div class="brand">
+                <img id="brandLogo" src="barangay-logo.jpg" alt="Barangay logo">
+                <div>
+                    <h1 id="systemTitle">BARANGAY REQUEST SYSTEM</h1>
+                    <p>User Settings</p>
+                </div>
+            </div>
+            <a class="back-link" href="landingpage.html"><i class="fa-solid fa-arrow-left"></i>Back to Dashboard</a>
+        </header>
+
+        <main class="grid">
+            <section class="card">
+                <h2><i class="fa-solid fa-user-gear"></i>Profile Settings</h2>
+                <form id="profileForm" novalidate>
+                    <div class="avatar-row">
+                        <div class="avatar-wrap">
+                            <img id="avatarPreview" src="" alt="User avatar preview">
+                            <i id="avatarFallback" class="fa-regular fa-user"></i>
+                        </div>
+                        <div class="avatar-fields">
+                            <label>
+                                <span>Profile Photo URL</span>
+                                <input id="photoUrl" type="url" placeholder="https://example.com/photo.jpg">
+                            </label>
+                            <label>
+                                <span>Upload Photo</span>
+                                <input id="photoFile" type="file" accept="image/*">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="two-col">
+                        <label>
+                            <span>Full Name</span>
+                            <input id="fullName" type="text" required>
+                        </label>
+                        <label>
+                            <span>Username</span>
+                            <input id="username" type="text" readonly>
+                        </label>
+                    </div>
+
+                    <div class="two-col">
+                        <label>
+                            <span>Email</span>
+                            <input id="email" type="email">
+                        </label>
+                        <label>
+                            <span>Contact Number</span>
+                            <input id="contact" type="tel" inputmode="numeric" maxlength="11" placeholder="09XXXXXXXXX">
+                        </label>
+                    </div>
+
+                    <label>
+                        <span>Address</span>
+                        <input id="address" type="text">
+                    </label>
+
+                    <p id="profileStatus" class="status"></p>
+                    <div class="actions">
+                        <button type="submit" class="primary-btn">Save Profile</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2><i class="fa-solid fa-lock"></i>Change Password</h2>
+                <form id="passwordForm" novalidate>
+                    <label>
+                        <span>Current Password</span>
+                        <input id="currentPassword" type="password">
+                    </label>
+                    <label>
+                        <span>New Password</span>
+                        <input id="newPassword" type="password" minlength="8" required>
+                    </label>
+                    <label>
+                        <span>Confirm New Password</span>
+                        <input id="confirmPassword" type="password" minlength="8" required>
+                    </label>
+
+                    <p id="passwordStatus" class="status"></p>
+                    <div class="actions">
+                        <button type="submit" class="primary-btn">Update Password</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2><i class="fa-regular fa-bell"></i>Notification Preferences</h2>
+                <form id="prefsForm" novalidate>
+                    <label class="toggle-row">
+                        <input id="inAppNotif" type="checkbox">
+                        <span>Enable in-app notifications</span>
+                    </label>
+                    <label class="toggle-row">
+                        <input id="emailNotif" type="checkbox">
+                        <span>Enable email notifications</span>
+                    </label>
+
+                    <p id="prefsStatus" class="status"></p>
+                    <div class="actions">
+                        <button type="submit" class="primary-btn">Save Preferences</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card wide">
+                <h2><i class="fa-solid fa-clock-rotate-left"></i>Request History</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Request Type</th>
+                                <th>Status</th>
+                                <th>Submitted Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+        <script src="api-client.js"></script>
+        <script src="user-settings.js"></script>
+</body>
+
+</html>
+
+
+

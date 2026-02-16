@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -15,6 +16,7 @@ const notificationRoutes = require("./routes/notificationRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
+const staticDir = path.resolve(__dirname, "../public");
 
 app.use(helmet());
 app.use(cors({
@@ -35,6 +37,18 @@ app.use("/api/users", userRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/admin", adminRoutes);
+
+app.use(express.static(staticDir));
+
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(staticDir, "index.html"));
+});
+
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/api/")) return next();
+  if (req.method !== "GET") return next();
+  return res.sendFile(path.join(staticDir, "index.html"));
+});
 
 app.use(notFound);
 app.use(errorHandler);

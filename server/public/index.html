@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Barangay Request System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <img class="header-logo" src="barangay-logo.jpg" alt="Barangay logo">
+            <h1 id="systemTitle">BARANGAY REQUEST SYSTEM</h1>
+        </div>
+
+        <div class="auth-panels">
+            <form id="userLoginForm" class="form user-form" action="landingpage.html" method="get">
+                <div class="role">
+                    <span class="role-icon"><i class="fa-regular fa-user"></i></span>
+                    <span>USER</span>
+                </div>
+
+                <div class="input-wrap">
+                    <i class="fa-regular fa-user"></i>
+                    <input id="userUsername" type="text" placeholder="Enter your username" required>
+                </div>
+
+                <div class="input-wrap">
+                    <i class="fa-solid fa-key"></i>
+                    <input id="userPassword" type="password" placeholder="********" required>
+                </div>
+
+                <div class="remember-wrap">
+                    <input id="rememberMeUser" type="checkbox">
+                    <label for="rememberMeUser">Remember me</label>
+                </div>
+
+                <button type="submit"><i class="fa-solid fa-right-to-bracket"></i>sign in</button>
+
+                <div class="auth-links">
+                    <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                    <a href="register.html" class="register-link">Register</a>
+                </div>
+            </form>
+
+            <form id="adminLoginForm" class="form admin-form" action="admin-dashboard.html" method="get">
+                <div class="role">
+                    <span class="role-icon"><i class="fa-solid fa-user-shield"></i></span>
+                    <span>ADMIN</span>
+                </div>
+
+                <div class="input-wrap">
+                    <i class="fa-regular fa-user"></i>
+                    <input id="adminUsername" type="text" placeholder="Enter admin username" required>
+                </div>
+
+                <div class="input-wrap">
+                    <i class="fa-solid fa-key"></i>
+                    <input id="adminPassword" type="password" placeholder="********" required>
+                </div>
+
+                <div class="remember-wrap">
+                    <input id="rememberMeAdmin" type="checkbox">
+                    <label for="rememberMeAdmin">Remember me</label>
+                </div>
+
+                <button type="submit"><i class="fa-solid fa-right-to-bracket"></i>sign in</button>
+
+                <div class="auth-links">
+                    <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+        <script src="api-client.js"></script>
+        <script src="index.js"></script>
+</body>
+
+</html>
+
+
+

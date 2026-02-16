@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Account</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="register.css">
+</head>
+
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="brand">
+                <img src="barangay-logo.jpg" alt="Barangay logo">
+                <div>
+                    <h1>BARANGAY REQUEST SYSTEM</h1>
+                    <p>Create Resident Account</p>
+                </div>
+            </div>
+            <a class="back-link" href="index.html"><i class="fa-solid fa-arrow-left"></i>Back to Sign In</a>
+        </header>
+
+        <main class="card">
+            <h2>Register</h2>
+            <p class="intro">Fill out the form below to create your account.</p>
+
+            <form id="registerForm" novalidate>
+                <div class="grid">
+                    <label>
+                        <span>Full Name</span>
+                        <input id="fullName" type="text" placeholder="Enter your full name" required>
+                    </label>
+
+                    <label>
+                        <span>Username</span>
+                        <input id="username" type="text" placeholder="Enter your username" required>
+                    </label>
+
+                    <label>
+                        <span>Email</span>
+                        <input id="email" type="email" placeholder="you@example.com" required>
+                    </label>
+
+                    <label>
+                        <span>Contact Number</span>
+                        <input id="contact" type="tel" inputmode="numeric" minlength="11" maxlength="11" pattern="^09\d{9}$" placeholder="09XXXXXXXXX" required>
+                    </label>
+
+                    <label>
+                        <span>Date of Birth</span>
+                        <input id="dob" type="date" required>
+                    </label>
+
+                    <label>
+                        <span>Password</span>
+                        <input id="password" type="password" minlength="8" placeholder="At least 8 characters" required>
+                    </label>
+
+                    <label class="full-row">
+                        <span>Confirm Password</span>
+                        <input id="confirmPassword" type="password" minlength="8" placeholder="Re-enter password" required>
+                    </label>
+                </div>
+
+                <label class="agree-wrap">
+                    <input id="agree" type="checkbox" required>
+                    <span>I confirm the information above is correct.</span>
+                </label>
+
+                <p id="statusMessage" class="status"></p>
+
+                <div class="actions">
+                    <a href="index.html" class="btn-secondary">Cancel</a>
+                    <button class="btn-primary" type="submit">Create Account</button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+        <script src="api-client.js"></script>
+        <script src="register.js"></script>
+</body>
+
+</html>
+
+
+
