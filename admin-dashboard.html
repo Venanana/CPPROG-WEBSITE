@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="admin-dashboard.css">
+</head>
+
+<body>
+    <div class="page">
+        <header class="topbar">
+            <div class="brand">
+                <img id="brandLogo" src="barangay-logo.jpg" alt="Barangay logo">
+                <div>
+                    <h1 id="systemTitle">BARANGAY REQUEST SYSTEM</h1>
+                    <p id="adminSubtitle">Admin Request Management</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a class="header-btn" href="admin-settings.html"><i class="fa-solid fa-gear"></i>Admin Settings</a>
+                <a class="header-btn" href="index.html"><i class="fa-solid fa-arrow-left"></i>Back to Sign In</a>
+                <a class="header-btn danger" href="#" onclick="logoutAdmin(event)"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+            </div>
+        </header>
+
+        <main class="content">
+            <section class="stats-grid">
+                <article class="stat-card">
+                    <p>Total Requests</p>
+                    <h2 id="totalCount">0</h2>
+                </article>
+                <article class="stat-card pending">
+                    <p>Pending</p>
+                    <h2 id="pendingCount">0</h2>
+                </article>
+                <article class="stat-card approved">
+                    <p>Approved</p>
+                    <h2 id="approvedCount">0</h2>
+                </article>
+                <article class="stat-card rejected">
+                    <p>Rejected</p>
+                    <h2 id="rejectedCount">0</h2>
+                </article>
+                <article class="stat-card cancelled">
+                    <p>Cancelled</p>
+                    <h2 id="cancelledCount">0</h2>
+                </article>
+            </section>
+
+            <section class="panel">
+                <div class="panel-head">
+                    <h3><i class="fa-solid fa-inbox"></i>User Request Submissions</h3>
+                </div>
+                <div class="filters">
+                    <input id="searchInput" type="text" placeholder="Search resident, type, purpose, contact">
+                    <select id="typeFilter">
+                        <option value="">All Types</option>
+                    </select>
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option>Pending</option>
+                        <option>Approved</option>
+                        <option>Rejected</option>
+                        <option>Cancelled</option>
+                    </select>
+                    <input id="dateFilter" type="date">
+                    <button id="clearFiltersBtn" type="button" class="secondary-btn">Clear</button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Resident</th>
+                                <th>Contact</th>
+                                <th>Request Type</th>
+                                <th>Purpose</th>
+                                <th>Submitted</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminRequestsBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lower-grid">
+                <article class="panel">
+                    <div class="panel-head">
+                        <h3><i class="fa-solid fa-users"></i>Registered Residents</h3>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>DOB</th>
+                                    <th>Registered</th>
+                                </tr>
+                            </thead>
+                            <tbody id="residentTableBody"></tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-head">
+                        <h3><i class="fa-solid fa-clock-rotate-left"></i>Recent Admin Activity</h3>
+                    </div>
+                    <ul id="adminActivityList" class="activity-list"></ul>
+                </article>
+            </section>
+        </main>
+    </div>
+
+    <div id="detailsModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3><i class="fa-solid fa-file-circle-check"></i>Request Details</h3>
+            <dl id="detailsGrid" class="details-grid"></dl>
+            <div class="modal-actions">
+                <button id="closeDetailsBtn" type="button" class="primary-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+        <script src="api-client.js"></script>
+        <script src="admin-dashboard.js"></script>
+</body>
+
+</html>
+
+
+

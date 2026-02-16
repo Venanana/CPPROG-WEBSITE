@@ -2,20 +2,21 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Segoe UI, sans-serif;
+    font-family: Manrope, Segoe UI, sans-serif;
 }
 
 body {
     background: #f2f2f2;
     color: #222;
+    line-height: 1.4;
 }
 
 .topbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    padding: 20px 30px;
+    gap: 16px;
+    padding: 16px 24px;
     color: #fff;
     background: linear-gradient(120deg, #65c466, #3f2b96);
 }
@@ -23,74 +24,76 @@ body {
 .top-left {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .barangay-logo {
-    width: 66px;
-    height: 66px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #fff;
 }
 
-.menu-icon {
-    font-size: 26px;
-    line-height: 1;
-}
-
 .top-left h1 {
-    font-size: 34px;
+    font-size: 26px;
     margin-bottom: 4px;
 }
 
 .top-left p {
-    font-size: 14px;
+    font-size: 13px;
     opacity: 0.95;
 }
 
-.profile-card {
+.profile-wrap {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
+}
+
+.profile-card {
+    width: 56px;
+    height: 56px;
     color: #111;
     background: #fff;
-    border: 3px solid #111;
-    border-radius: 40px;
-    padding: 8px 18px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .profile-card img {
-    width: 64px;
-    height: 64px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 50%;
 }
 
-.profile-card h2 {
-    font-size: 24px;
-    font-weight: 700;
-}
-
-.profile-card p {
-    font-size: 24px;
+.profile-label {
+    font-size: 12px;
+    color: #fff;
+    line-height: 1;
 }
 
 .page {
-    max-width: 1100px;
-    margin: 20px auto 40px;
+    max-width: 980px;
+    margin: 18px auto 34px;
     padding: 0 16px;
 }
 
 .request-form {
     background: #fff;
     border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 22px;
+    border-radius: 12px;
+    padding: 18px;
 }
 
 .request-form h3 {
-    font-size: 30px;
-    margin: 20px 0 12px;
+    font-size: 23px;
+    margin: 18px 0 10px;
 }
 
 label {
@@ -99,8 +102,9 @@ label {
 
 label span {
     display: block;
-    font-size: 28px;
-    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
 }
 
 input,
@@ -109,8 +113,8 @@ textarea {
     width: 100%;
     border: 1px solid #d3d3d3;
     border-radius: 8px;
-    padding: 12px 14px;
-    font-size: 24px;
+    padding: 10px 12px;
+    font-size: 15px;
     outline: none;
 }
 
@@ -124,30 +128,30 @@ textarea:focus {
 .two-col {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    gap: 12px;
 }
 
 .full-width {
-    margin-top: 14px;
+    margin-top: 12px;
 }
 
 .upload-box {
     border: 2px dashed #b8dcb8;
     border-radius: 8px;
-    padding: 12px;
+    padding: 10px;
     background: #f7fff7;
 }
 
 .upload-box input[type="file"] {
     border: 0;
     padding: 0;
-    font-size: 21px;
+    font-size: 14px;
 }
 
 .actions {
-    margin-top: 20px;
+    margin-top: 16px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 12px;
 }
 
@@ -155,8 +159,9 @@ button {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    padding: 12px 24px;
-    font-size: 24px;
+    padding: 10px 18px;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .btn-cancel {
@@ -174,6 +179,77 @@ button {
     background: #4ea957;
 }
 
+.success-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1100;
+}
+
+.success-overlay.show {
+    display: flex;
+}
+
+.success-card {
+    width: min(100%, 360px);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    background: #fff;
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
+}
+
+.success-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e9f7ec;
+    color: #2f9142;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.success-card h3 {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.success-card p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 14px;
+}
+
+.success-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-cancel-notice {
+    flex: 1;
+    background: #f0f0f0;
+    color: #222;
+    border: 1px solid #d0d0d0;
+}
+
+.btn-home {
+    flex: 1;
+    background: #65c466;
+    color: #fff;
+}
+
+.btn-home:hover {
+    background: #4ea957;
+}
+
 @media (max-width: 900px) {
     .topbar {
         flex-direction: column;
@@ -181,20 +257,19 @@ button {
     }
 
     .top-left h1 {
-        font-size: 28px;
+        font-size: 22px;
     }
 
-    .profile-card h2,
-    .profile-card p {
-        font-size: 18px;
+    .profile-label {
+        font-size: 12px;
     }
 
     .request-form h3 {
-        font-size: 26px;
+        font-size: 20px;
     }
 
     label span {
-        font-size: 22px;
+        font-size: 13px;
     }
 
     input,
@@ -202,10 +277,14 @@ button {
     textarea,
     .upload-box input[type="file"],
     button {
-        font-size: 18px;
+        font-size: 14px;
     }
 
     .two-col {
         grid-template-columns: 1fr;
+    }
+
+    .success-card h3 {
+        font-size: 18px;
     }
 }

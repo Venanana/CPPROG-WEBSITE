@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="admin-settings.css">
+</head>
+
+<body>
+    <div class="page">
+        <header class="topbar">
+            <div class="brand">
+                <img id="brandLogo" src="barangay-logo.jpg" alt="Barangay logo">
+                <div>
+                    <h1 id="systemTitle">BARANGAY REQUEST SYSTEM</h1>
+                    <p>Admin Settings</p>
+                </div>
+            </div>
+            <a class="back-link" href="admin-dashboard.html"><i class="fa-solid fa-arrow-left"></i>Back to Admin Dashboard</a>
+        </header>
+
+        <main class="grid">
+            <section class="card">
+                <h2><i class="fa-solid fa-palette"></i>Branding</h2>
+                <form id="brandingForm" novalidate>
+                    <label>
+                        <span>System Name</span>
+                        <input id="brandingSystemName" type="text" required>
+                    </label>
+                    <label>
+                        <span>Admin Subtitle</span>
+                        <input id="brandingSubtitle" type="text" placeholder="Admin Request Management">
+                    </label>
+                    <label>
+                        <span>Logo URL or Path</span>
+                        <input id="brandingLogo" type="text" placeholder="barangay-logo.jpg">
+                    </label>
+                    <div class="two-col">
+                        <label>
+                            <span>Barangay Contact Email</span>
+                            <input id="brandingEmail" type="email">
+                        </label>
+                        <label>
+                            <span>Barangay Contact Number</span>
+                            <input id="brandingPhone" type="text">
+                        </label>
+                    </div>
+                    <p id="brandingStatus" class="status"></p>
+                    <div class="actions">
+                        <button type="submit" class="primary-btn">Save Branding</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2><i class="fa-solid fa-file-circle-plus"></i>Document Types</h2>
+                <div class="inline-row">
+                    <input id="newDocType" type="text" placeholder="New document type">
+                    <button id="addDocTypeBtn" type="button" class="secondary-btn">Add</button>
+                </div>
+                <ul id="docTypeList" class="pill-list"></ul>
+                <p id="docTypeStatus" class="status"></p>
+            </section>
+
+            <section class="card">
+                <h2><i class="fa-solid fa-list-check"></i>Request Field Rules</h2>
+                <form id="rulesForm" novalidate>
+                    <label class="toggle-row">
+                        <input id="requireAddress" type="checkbox">
+                        <span>Require address in request form</span>
+                    </label>
+                    <label class="toggle-row">
+                        <input id="requireContact" type="checkbox">
+                        <span>Require contact number in request form</span>
+                    </label>
+                    <label class="toggle-row">
+                        <input id="requirePurpose" type="checkbox">
+                        <span>Require purpose in request form</span>
+                    </label>
+                    <label class="toggle-row">
+                        <input id="requireAttachment" type="checkbox">
+                        <span>Require supporting document upload</span>
+                    </label>
+                    <p id="rulesStatus" class="status"></p>
+                    <div class="actions">
+                        <button type="submit" class="primary-btn">Save Rules</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2><i class="fa-solid fa-shuffle"></i>Workflow</h2>
+                <form id="workflowForm" novalidate>
+                    <label class="toggle-row">
+                        <input id="allowResetToPending" type="checkbox">
+                        <span>Allow admins to reset approved/rejected requests back to pending</span>
+                    </label>
+                    <p id="workflowStatus" class="status"></p>
+                    <div class="actions">
+                        <button type="submit" class="primary-btn">Save Workflow</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card wide">
+                <h2><i class="fa-solid fa-user-shield"></i>Admin Accounts</h2>
+                <form id="adminAccountForm" novalidate>
+                    <div class="three-col">
+                        <label>
+                            <span>Username</span>
+                            <input id="adminUsernameInput" type="text" required>
+                        </label>
+                        <label>
+                            <span>Password</span>
+                            <input id="adminPasswordInput" type="password" minlength="6" required>
+                        </label>
+                        <label>
+                            <span>Role</span>
+                            <select id="adminRoleInput">
+                                <option>Super Admin</option>
+                                <option>Staff Admin</option>
+                                <option>Viewer</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="secondary-btn">Add Admin</button>
+                    </div>
+                </form>
+                <p id="adminStatus" class="status"></p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Created</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+        <script src="api-client.js"></script>
+        <script src="admin-settings.js"></script>
+</body>
+
+</html>
+
+
+

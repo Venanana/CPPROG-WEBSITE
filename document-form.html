@@ -5,25 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fill Up Form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="document-form.css">
 </head>
 
 <body>
     <header class="topbar">
         <div class="top-left">
-            <div class="menu-icon">&#9776;</div>
-            <img class="barangay-logo" src="barangay-logo.jpg" alt="Barangay logo">
+            <img id="brandLogo" class="barangay-logo" src="barangay-logo.jpg" alt="Barangay logo">
             <div>
-                <h1>Fill the Form</h1>
+                <h1 id="systemTitle">Fill the Form</h1>
                 <p>Fill out the form below to request an available document.</p>
             </div>
         </div>
-        <div class="profile-card">
-            <img src="https://via.placeholder.com/64" alt="Resident profile">
-            <div>
-                <h2>RESIDENT USER</h2>
-                <p>Resident</p>
+        <div class="profile-wrap">
+            <div class="profile-card">
+                <img src="https://via.placeholder.com/64" alt="Resident profile">
             </div>
+            <p class="profile-label">User</p>
         </div>
     </header>
 
@@ -33,9 +32,6 @@
                 <span>Select Document Type</span>
                 <select id="documentType" name="document_type" required>
                     <option value="" selected disabled>Choose document type</option>
-                    <option>Barangay Clearance</option>
-                    <option>Certification of Indigency</option>
-                    <option>Barangay ID</option>
                 </select>
             </label>
 
@@ -47,85 +43,50 @@
                     <input id="fullName" type="text" name="full_name" placeholder="Enter your full name" required>
                 </label>
                 <label>
-                    <span>Address *</span>
-                    <input type="text" name="address" placeholder="Enter your complete address" required>
+                    <span id="addressLabel">Address *</span>
+                    <input id="address" type="text" name="address" placeholder="Enter your complete address" required>
                 </label>
             </div>
 
             <label class="full-width">
-                <span>Contact Number *</span>
-                <input type="tel" name="contact" placeholder="Enter your phone number" required>
+                <span id="contactLabel">Contact Number *</span>
+                <input id="contact" type="tel" name="contact" inputmode="numeric" minlength="11" maxlength="11" pattern="^09\d{9}$" placeholder="09XXXXXXXXX" title="Use 09XXXXXXXXX format" required>
             </label>
 
             <label class="full-width">
-                <span>Purpose of Request *</span>
+                <span id="purposeLabel">Purpose of Request *</span>
                 <textarea id="purpose" name="purpose" rows="4" placeholder="Enter the purpose of your request" required></textarea>
             </label>
 
             <label class="upload-box full-width">
-                <span>Upload supporting document (optional)</span>
-                <input type="file" name="supporting_file">
+                <span id="attachmentLabel">Upload supporting document (optional)</span>
+                <input id="supportingFile" type="file" name="supporting_file">
             </label>
 
             <div class="actions">
-                <button type="button" class="btn-cancel" onclick="window.location.href='landingpage.html'">Cancel</button>
+                <button type="button" class="btn-cancel" onclick="window.location.href='landingpage.html'">Back to Dashboard</button>
                 <button type="submit" class="btn-submit">Submit Request</button>
             </div>
         </form>
     </main>
 
-    <script>
-        const REQUESTS_KEY = "barangay_requests_v1";
-        const NOTIFS_KEY = "barangay_notifications_v1";
-        const ACTIVITY_KEY = "barangay_activity_v1";
-        const params = new URLSearchParams(window.location.search);
-        const selectedType = params.get("type");
-        const documentTypeSelect = document.getElementById("documentType");
-        const requestForm = document.getElementById("requestForm");
+    <div id="successNotice" class="success-overlay" aria-live="polite">
+        <div class="success-card">
+            <div class="success-icon">&#10003;</div>
+            <h3>Request Submitted Successfully</h3>
+            <p>Your request was sent successfully.</p>
+            <div class="success-actions">
+                <button id="cancelNoticeBtn" type="button" class="btn-cancel-notice">Cancel</button>
+                <button id="goHomeBtn" type="button" class="btn-home">Go to Homepage</button>
+            </div>
+        </div>
+    </div>
 
-        if (selectedType) {
-            documentTypeSelect.value = selectedType;
-        }
-
-        requestForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            const fullName = document.getElementById("fullName").value.trim();
-            const requestType = documentTypeSelect.value;
-            const purpose = document.getElementById("purpose").value.trim();
-            const today = new Date().toISOString().slice(0, 10);
-
-            const requests = JSON.parse(localStorage.getItem(REQUESTS_KEY) || "[]");
-            const notifications = JSON.parse(localStorage.getItem(NOTIFS_KEY) || "[]");
-            const activity = JSON.parse(localStorage.getItem(ACTIVITY_KEY) || "[]");
-
-            const newRequest = {
-                id: `r${Date.now()}`,
-                user: fullName,
-                type: requestType,
-                status: "Pending",
-                date: today,
-                purpose
-            };
-
-            requests.unshift(newRequest);
-            notifications.unshift({
-                message: `${fullName} submitted a new ${requestType} request.`,
-                date: today,
-                read: false
-            });
-            activity.unshift({
-                message: `${fullName} submitted ${requestType}.`,
-                date: today
-            });
-
-            localStorage.setItem(REQUESTS_KEY, JSON.stringify(requests));
-            localStorage.setItem(NOTIFS_KEY, JSON.stringify(notifications.slice(0, 12)));
-            localStorage.setItem(ACTIVITY_KEY, JSON.stringify(activity.slice(0, 12)));
-
-            window.location.href = "landingpage.html";
-        });
-    </script>
+        <script src="api-client.js"></script>
+        <script src="document-form.js"></script>
 </body>
 
 </html>
+
+
+
