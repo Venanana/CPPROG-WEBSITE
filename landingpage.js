@@ -35,6 +35,16 @@ function iconClassForType(type) {
   return /id/i.test(type) ? "fa-regular fa-id-card" : "fa-regular fa-file-lines";
 }
 
+function byId(id) {
+  return document.getElementById(id);
+}
+
+function bindClick(id, handler) {
+  const element = byId(id);
+  if (!element) return;
+  element.addEventListener("click", handler);
+}
+
 function renderRequestTypeButtons() {
   const docTypes = Array.isArray(settings.documentTypes) ? settings.documentTypes : [];
   const list = document.getElementById("requestTypeList");
@@ -328,47 +338,60 @@ async function toggleNotifications() {
   }
 }
 
-document.getElementById("notificationBtn").addEventListener("click", toggleNotifications);
-document.getElementById("navNewRequest").addEventListener("click", openRequestTypeModal);
-document.getElementById("navSettings").addEventListener("click", function () {
+bindClick("notificationBtn", toggleNotifications);
+bindClick("navNewRequest", function (event) {
+  event.preventDefault();
+  openRequestTypeModal();
+});
+bindClick("navSettings", function () {
   window.location.href = "user-settings.html";
 });
-document.getElementById("navAboutUs").addEventListener("click", function () {
+bindClick("navAboutUs", function () {
   window.location.href = "aboutus.html";
 });
-document.getElementById("navLogout").addEventListener("click", confirmLogout);
-document.getElementById("clearFiltersBtn").addEventListener("click", clearFilters);
-document.getElementById("closeRequestTypeBtn").addEventListener("click", closeRequestTypeModal);
-document.getElementById("confirmRequestTypeBtn").addEventListener("click", confirmRequestTypeSelection);
-document.getElementById("cancelConfirmNoBtn").addEventListener("click", closeCancelConfirmModal);
-document.getElementById("cancelConfirmYesBtn").addEventListener("click", confirmCancelRequest);
-document.getElementById("clearConfirmNoBtn").addEventListener("click", closeClearConfirmModal);
-document.getElementById("clearConfirmYesBtn").addEventListener("click", confirmClearNonPending);
+bindClick("navLogout", confirmLogout);
+bindClick("clearFiltersBtn", clearFilters);
+bindClick("closeRequestTypeBtn", closeRequestTypeModal);
+bindClick("confirmRequestTypeBtn", confirmRequestTypeSelection);
+bindClick("cancelConfirmNoBtn", closeCancelConfirmModal);
+bindClick("cancelConfirmYesBtn", confirmCancelRequest);
+bindClick("clearConfirmNoBtn", closeClearConfirmModal);
+bindClick("clearConfirmYesBtn", confirmClearNonPending);
 
-document.getElementById("allCard").addEventListener("click", function () {
-  filterByStatus("", "allCard");
-});
-document.getElementById("pendingCard").addEventListener("click", function () {
-  filterByStatus("Pending", "pendingCard");
-});
-document.getElementById("approvedCard").addEventListener("click", function () {
-  filterByStatus("Approved", "approvedCard");
-});
-document.getElementById("searchInput").addEventListener("input", renderTable);
-document.getElementById("typeFilter").addEventListener("change", renderTable);
-document.getElementById("statusFilter").addEventListener("change", function () {
-  activeStatusFilter = "";
-  document.querySelectorAll(".clickable-card").forEach(card => card.classList.remove("filter-active"));
-  renderTable();
-  updateTableTitle();
-});
-document.getElementById("dateFilter").addEventListener("change", renderTable);
-document.getElementById("requestsTableBody").addEventListener("click", function (event) {
-  const button = event.target.closest("button[data-action='cancel']");
-  if (!button) return;
-  const requestId = button.getAttribute("data-id");
-  cancelRequest(requestId);
-});
+if (byId("allCard")) {
+  byId("allCard").addEventListener("click", function () {
+    filterByStatus("", "allCard");
+  });
+}
+if (byId("pendingCard")) {
+  byId("pendingCard").addEventListener("click", function () {
+    filterByStatus("Pending", "pendingCard");
+  });
+}
+if (byId("approvedCard")) {
+  byId("approvedCard").addEventListener("click", function () {
+    filterByStatus("Approved", "approvedCard");
+  });
+}
+if (byId("searchInput")) byId("searchInput").addEventListener("input", renderTable);
+if (byId("typeFilter")) byId("typeFilter").addEventListener("change", renderTable);
+if (byId("statusFilter")) {
+  byId("statusFilter").addEventListener("change", function () {
+    activeStatusFilter = "";
+    document.querySelectorAll(".clickable-card").forEach(card => card.classList.remove("filter-active"));
+    renderTable();
+    updateTableTitle();
+  });
+}
+if (byId("dateFilter")) byId("dateFilter").addEventListener("change", renderTable);
+if (byId("requestsTableBody")) {
+  byId("requestsTableBody").addEventListener("click", function (event) {
+    const button = event.target.closest("button[data-action='cancel']");
+    if (!button) return;
+    const requestId = button.getAttribute("data-id");
+    cancelRequest(requestId);
+  });
+}
 
 document.addEventListener("click", function (event) {
   const wrap = document.querySelector(".notification-wrap");
@@ -377,20 +400,29 @@ document.addEventListener("click", function (event) {
   }
 });
 
-document.getElementById("requestTypeModal").addEventListener("click", function (event) {
-  if (event.target.id === "requestTypeModal") closeRequestTypeModal();
-});
-document.getElementById("cancelConfirmModal").addEventListener("click", function (event) {
-  if (event.target.id === "cancelConfirmModal") closeCancelConfirmModal();
-});
-document.getElementById("clearConfirmModal").addEventListener("click", function (event) {
-  if (event.target.id === "clearConfirmModal") closeClearConfirmModal();
-});
-document.getElementById("userAvatar").addEventListener("error", function () {
-  this.removeAttribute("src");
-  this.style.display = "none";
-  document.getElementById("userAvatarFallback").style.display = "inline-flex";
-});
+if (byId("requestTypeModal")) {
+  byId("requestTypeModal").addEventListener("click", function (event) {
+    if (event.target.id === "requestTypeModal") closeRequestTypeModal();
+  });
+}
+if (byId("cancelConfirmModal")) {
+  byId("cancelConfirmModal").addEventListener("click", function (event) {
+    if (event.target.id === "cancelConfirmModal") closeCancelConfirmModal();
+  });
+}
+if (byId("clearConfirmModal")) {
+  byId("clearConfirmModal").addEventListener("click", function (event) {
+    if (event.target.id === "clearConfirmModal") closeClearConfirmModal();
+  });
+}
+if (byId("userAvatar")) {
+  byId("userAvatar").addEventListener("error", function () {
+    this.removeAttribute("src");
+    this.style.display = "none";
+    const fallback = byId("userAvatarFallback");
+    if (fallback) fallback.style.display = "inline-flex";
+  });
+}
 
 loadData()
   .then(function () {

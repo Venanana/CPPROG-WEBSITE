@@ -7,6 +7,7 @@ const successNotice = document.getElementById("successNotice");
 const cancelNoticeBtn = document.getElementById("cancelNoticeBtn");
 const goHomeBtn = document.getElementById("goHomeBtn");
 const supportingFileInput = document.getElementById("supportingFile");
+const backToDashboardBtn = document.getElementById("backToDashboardBtn");
 
 let settings = null;
 
@@ -75,6 +76,12 @@ cancelNoticeBtn.addEventListener("click", function () {
 goHomeBtn.addEventListener("click", function () {
   window.location.href = "landingpage.html";
 });
+
+if (backToDashboardBtn) {
+  backToDashboardBtn.addEventListener("click", function () {
+    window.location.href = "landingpage.html";
+  });
+}
 
 requestForm.addEventListener("submit", async function (event) {
   event.preventDefault();
