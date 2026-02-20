@@ -7,6 +7,12 @@ let activeStatusFilter = "";
 let pendingCancelRequestId = null;
 let pendingClearCount = 0;
 let selectedRequestType = "";
+const DEFAULT_DOCUMENT_TYPES = [
+  "Barangay Clearance",
+  "Certification of Indigency",
+  "Barangay ID",
+  "Certificate of Residency"
+];
 
 function applyBranding(systemSettings) {
   const branding = systemSettings && systemSettings.branding ? systemSettings.branding : {};
@@ -26,7 +32,7 @@ function setActiveCard(cardId) {
 function renderTypeFilterOptions() {
   const filter = document.getElementById("typeFilter");
   const currentValue = filter.value;
-  const docTypes = Array.isArray(settings.documentTypes) ? settings.documentTypes : [];
+  const docTypes = getDocumentTypes();
   filter.innerHTML = `<option value="">All Types</option>${docTypes.map(type => `<option>${type}</option>`).join("")}`;
   if (docTypes.includes(currentValue)) filter.value = currentValue;
 }
@@ -45,8 +51,15 @@ function bindClick(id, handler) {
   element.addEventListener("click", handler);
 }
 
+function getDocumentTypes() {
+  const types = settings && Array.isArray(settings.documentTypes)
+    ? settings.documentTypes.map(item => String(item || "").trim()).filter(Boolean)
+    : [];
+  return types.length ? types : DEFAULT_DOCUMENT_TYPES;
+}
+
 function renderRequestTypeButtons() {
-  const docTypes = Array.isArray(settings.documentTypes) ? settings.documentTypes : [];
+  const docTypes = getDocumentTypes();
   const list = document.getElementById("requestTypeList");
   list.innerHTML = docTypes.map(type => `
     <button class="request-type-btn" data-type="${type}">
@@ -291,6 +304,7 @@ async function confirmLogout() {
 }
 
 function openRequestTypeModal() {
+  renderRequestTypeButtons();
   selectedRequestType = "";
   document.querySelectorAll(".request-type-btn").forEach(button => button.classList.remove("request-type-selected"));
   document.getElementById("confirmRequestTypeBtn").disabled = true;

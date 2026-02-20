@@ -29,7 +29,8 @@ body {
     max-width: 720px;
 }
 
-.hero button {
+.hero-back-link {
+    display: inline-block;
     border: none;
     border-radius: 8px;
     padding: 10px 14px;
@@ -37,6 +38,7 @@ body {
     color: #202020;
     cursor: pointer;
     font-weight: 600;
+    text-decoration: none;
 }
 
 .content {
