@@ -330,7 +330,7 @@ const updateSettings = asyncHandler(async (req, res) => {
   await query(
     `INSERT INTO activity_logs (actor_user_id, action, target_type, target_id)
      VALUES ($1, $2, 'settings', '1')`,
-    [_req.auth.userId, "Updated system settings"]
+    [req.auth.userId, "Updated system settings"]
   );
 
   return res.json({ settings: normalizeSettings(updated.rows[0]) });
