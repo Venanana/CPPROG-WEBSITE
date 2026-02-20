@@ -118,7 +118,7 @@ function renderTable() {
       <td>${item.date}</td>
       <td class="cancel-cell">
         ${item.status === "Pending"
-          ? `<button class="table-cancel-btn" onclick="cancelRequest('${item.id}')">Cancel Request</button>`
+          ? `<button class="table-cancel-btn" data-action="cancel" data-id="${item.id}">Cancel Request</button>`
           : "<span class='cancel-unavailable'>-</span>"}
       </td>
     </tr>
@@ -328,6 +328,23 @@ async function toggleNotifications() {
   }
 }
 
+document.getElementById("notificationBtn").addEventListener("click", toggleNotifications);
+document.getElementById("navNewRequest").addEventListener("click", openRequestTypeModal);
+document.getElementById("navSettings").addEventListener("click", function () {
+  window.location.href = "user-settings.html";
+});
+document.getElementById("navAboutUs").addEventListener("click", function () {
+  window.location.href = "aboutus.html";
+});
+document.getElementById("navLogout").addEventListener("click", confirmLogout);
+document.getElementById("clearFiltersBtn").addEventListener("click", clearFilters);
+document.getElementById("closeRequestTypeBtn").addEventListener("click", closeRequestTypeModal);
+document.getElementById("confirmRequestTypeBtn").addEventListener("click", confirmRequestTypeSelection);
+document.getElementById("cancelConfirmNoBtn").addEventListener("click", closeCancelConfirmModal);
+document.getElementById("cancelConfirmYesBtn").addEventListener("click", confirmCancelRequest);
+document.getElementById("clearConfirmNoBtn").addEventListener("click", closeClearConfirmModal);
+document.getElementById("clearConfirmYesBtn").addEventListener("click", confirmClearNonPending);
+
 document.getElementById("allCard").addEventListener("click", function () {
   filterByStatus("", "allCard");
 });
@@ -346,6 +363,12 @@ document.getElementById("statusFilter").addEventListener("change", function () {
   updateTableTitle();
 });
 document.getElementById("dateFilter").addEventListener("change", renderTable);
+document.getElementById("requestsTableBody").addEventListener("click", function (event) {
+  const button = event.target.closest("button[data-action='cancel']");
+  if (!button) return;
+  const requestId = button.getAttribute("data-id");
+  cancelRequest(requestId);
+});
 
 document.addEventListener("click", function (event) {
   const wrap = document.querySelector(".notification-wrap");

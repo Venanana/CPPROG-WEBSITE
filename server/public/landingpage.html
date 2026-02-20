@@ -19,7 +19,7 @@
         <div class="right-header">
             <div class="header-circle-group">
                 <div class="notification-wrap">
-                    <button class="notification-btn" onclick="toggleNotifications()"><i class="fa-regular fa-bell"></i><span id="notifCount" class="notif-count">0</span></button>
+                    <button id="notificationBtn" class="notification-btn"><i class="fa-regular fa-bell"></i><span id="notifCount" class="notif-count">0</span></button>
                     <div id="notificationPanel" class="notification-panel">
                         <h4>Updates</h4>
                         <ul id="notificationList"></ul>
@@ -41,10 +41,10 @@
     <div class="container">
         <aside class="sidebar">
             <ul>
-                <li class="active" onclick="openRequestTypeModal()"><i class="fa-solid fa-file-circle-plus"></i><span>New Request</span></li>
-                <li onclick="window.location.href='user-settings.html'"><i class="fa-solid fa-gear"></i><span>Settings</span></li>
-                <li onclick="window.location.href='aboutus.html'"><i class="fa-solid fa-circle-info"></i><span>About Us</span></li>
-                <li onclick="confirmLogout()"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></li>
+                <li id="navNewRequest" class="active"><i class="fa-solid fa-file-circle-plus"></i><span>New Request</span></li>
+                <li id="navSettings"><i class="fa-solid fa-gear"></i><span>Settings</span></li>
+                <li id="navAboutUs"><i class="fa-solid fa-circle-info"></i><span>About Us</span></li>
+                <li id="navLogout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></li>
             </ul>
         </aside>
 
@@ -91,7 +91,7 @@
                             <option>Cancelled</option>
                         </select>
                         <input id="dateFilter" type="date">
-                        <button class="clear-btn" onclick="clearFilters()">Clear</button>
+                        <button id="clearFiltersBtn" class="clear-btn">Clear</button>
                     </div>
 
                     <table>
@@ -119,8 +119,8 @@
             <p>What type of request do you want to file?</p>
             <div id="requestTypeList" class="request-type-list"></div>
             <div class="modal-actions">
-                <button class="modal-no" onclick="closeRequestTypeModal()">Cancel</button>
-                <button id="confirmRequestTypeBtn" class="modal-yes" onclick="confirmRequestTypeSelection()" disabled>Confirm</button>
+                <button id="closeRequestTypeBtn" class="modal-no">Cancel</button>
+                <button id="confirmRequestTypeBtn" class="modal-yes" disabled>Confirm</button>
             </div>
         </div>
     </div>
@@ -130,8 +130,8 @@
             <h3><i class="fa-solid fa-triangle-exclamation"></i>Cancel Request</h3>
             <p>Are you sure you want to cancel this request?</p>
             <div class="modal-actions">
-                <button class="modal-no" onclick="closeCancelConfirmModal()">No</button>
-                <button class="modal-yes" onclick="confirmCancelRequest()">Yes, Cancel</button>
+                <button id="cancelConfirmNoBtn" class="modal-no">No</button>
+                <button id="cancelConfirmYesBtn" class="modal-yes">Yes, Cancel</button>
             </div>
         </div>
     </div>
@@ -141,8 +141,8 @@
             <h3><i class="fa-solid fa-broom"></i>Clear Non-Pending</h3>
             <p id="clearConfirmText">Clear all non-pending requests?</p>
             <div class="modal-actions">
-                <button class="modal-no" onclick="closeClearConfirmModal()">No</button>
-                <button class="modal-yes" onclick="confirmClearNonPending()">Yes, Clear</button>
+                <button id="clearConfirmNoBtn" class="modal-no">No</button>
+                <button id="clearConfirmYesBtn" class="modal-yes">Yes, Clear</button>
             </div>
         </div>
     </div>
