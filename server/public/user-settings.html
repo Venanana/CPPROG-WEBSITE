@@ -82,15 +82,30 @@
                 <form id="passwordForm" novalidate>
                     <label>
                         <span>Current Password</span>
-                        <input id="currentPassword" type="password">
+                        <div class="password-wrap">
+                            <input id="currentPassword" type="password">
+                            <button type="button" class="password-toggle-btn" data-target="currentPassword" aria-label="Show password">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
                     </label>
                     <label>
                         <span>New Password</span>
-                        <input id="newPassword" type="password" minlength="8" required>
+                        <div class="password-wrap">
+                            <input id="newPassword" type="password" minlength="8" required>
+                            <button type="button" class="password-toggle-btn" data-target="newPassword" aria-label="Show password">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
                     </label>
                     <label>
                         <span>Confirm New Password</span>
-                        <input id="confirmPassword" type="password" minlength="8" required>
+                        <div class="password-wrap">
+                            <input id="confirmPassword" type="password" minlength="8" required>
+                            <button type="button" class="password-toggle-btn" data-target="confirmPassword" aria-label="Show password">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
                     </label>
 
                     <p id="passwordStatus" class="status"></p>
@@ -139,6 +154,7 @@
     </div>
 
         <script src="api-client.js"></script>
+        <script src="password-toggle.js"></script>
         <script src="user-settings.js"></script>
 </body>
 
