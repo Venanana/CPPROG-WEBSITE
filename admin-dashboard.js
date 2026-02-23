@@ -28,8 +28,9 @@ function applyBranding(systemSettings) {
 
 function renderTypeOptions() {
   const filter = document.getElementById("typeFilter");
+  if (!filter) return;
   const current = filter.value;
-  const types = Array.isArray(settings.documentTypes) ? settings.documentTypes : [];
+  const types = Array.isArray(settings && settings.documentTypes) ? settings.documentTypes : [];
   filter.innerHTML = `<option value="">All Types</option>${types.map(type => `<option>${escapeHtml(type)}</option>`).join("")}`;
   if (types.includes(current)) filter.value = current;
 }
@@ -176,7 +177,7 @@ async function updateRequestStatus(requestId, nextStatus) {
 
 async function loadData() {
   const authUser = apiClient.requireAuth(["admin"]);
-  if (!authUser) return;
+  if (!authUser) return false;
 
   const [settingsPayload, requestsPayload, residentsPayload, activityPayload] = await Promise.all([
     apiClient.get("/admin/settings"),
@@ -185,10 +186,12 @@ async function loadData() {
     apiClient.get("/admin/activity?limit=30")
   ]);
 
-  settings = settingsPayload.settings || {};
+  settings = settingsPayload && settingsPayload.settings ? settingsPayload.settings : {};
   requests = Array.isArray(requestsPayload.requests) ? requestsPayload.requests : [];
   residents = Array.isArray(residentsPayload.residents) ? residentsPayload.residents : [];
   activity = Array.isArray(activityPayload.activity) ? activityPayload.activity : [];
+
+  return true;
 }
 
 function renderAll() {
@@ -277,7 +280,10 @@ detailsModal.addEventListener("click", function (event) {
 bindCollapsibleCards();
 
 loadData()
-  .then(renderAll)
+  .then(function (loaded) {
+    if (!loaded) return;
+    renderAll();
+  })
   .catch(function (err) {
     window.alert(err.message || "Failed to load admin dashboard.");
   });

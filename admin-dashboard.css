@@ -195,13 +195,15 @@ body {
 .summary-list {
     list-style: none;
     display: grid;
-    gap: 8px;
+    gap: 10px;
+    margin-top: 2px;
 }
 
 .summary-list li {
     border: 1px solid #e7ebf0;
     border-radius: 8px;
-    padding: 8px 10px;
+    padding: 10px 12px;
+    min-height: 46px;
     display: flex;
     align-items: center;
     justify-content: space-between;

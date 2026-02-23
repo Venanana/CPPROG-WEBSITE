@@ -57,9 +57,14 @@
                     </div>
                 </section>
 
-                <section class="menu-card">
-                    <h3><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</h3>
-                    <ul id="adminActivityList" class="side-list"></ul>
+                <section class="menu-card collapsible-card" id="activityCard">
+                    <button class="collapse-toggle" type="button" aria-expanded="false">
+                        <span><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</span>
+                        <i class="fa-solid fa-chevron-down caret-icon"></i>
+                    </button>
+                    <div class="collapsible-content">
+                        <ul id="adminActivityList" class="side-list"></ul>
+                    </div>
                 </section>
             </aside>
 
