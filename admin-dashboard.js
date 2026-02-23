@@ -101,11 +101,17 @@ function renderStats() {
   const rejected = requests.filter(item => item.status === "Rejected").length;
   const cancelled = requests.filter(item => item.status === "Cancelled").length;
 
-  document.getElementById("totalCount").textContent = requests.length;
-  document.getElementById("pendingCount").textContent = pending;
-  document.getElementById("approvedCount").textContent = approved;
-  document.getElementById("rejectedCount").textContent = rejected;
-  document.getElementById("cancelledCount").textContent = cancelled;
+  const totalEl = document.getElementById("totalCount");
+  const pendingEl = document.getElementById("pendingCount");
+  const approvedEl = document.getElementById("approvedCount");
+  const rejectedEl = document.getElementById("rejectedCount");
+  const cancelledEl = document.getElementById("cancelledCount");
+
+  if (totalEl) totalEl.textContent = requests.length;
+  if (pendingEl) pendingEl.textContent = pending;
+  if (approvedEl) approvedEl.textContent = approved;
+  if (rejectedEl) rejectedEl.textContent = rejected;
+  if (cancelledEl) cancelledEl.textContent = cancelled;
 }
 
 function renderRequests() {
@@ -163,6 +169,7 @@ function renderResidents() {
 }
 
 function renderActivity() {
+  if (!activityList) return;
   if (!activity.length) {
     activityList.innerHTML = "<li class='empty'>No activity yet.</li>";
     return;

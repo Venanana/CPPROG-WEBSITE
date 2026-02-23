@@ -70,6 +70,15 @@ body {
     min-width: 310px;
 }
 
+.profile-link-card {
+    text-decoration: none;
+    color: inherit;
+}
+
+.profile-link-card:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
 .header-profile-copy {
     display: grid;
     min-width: 0;
@@ -220,7 +229,7 @@ body {
 
 .caret-icon {
     color: #6b7280;
-    transition: transform 0.2s ease;
+    transition: none;
 }
 
 .collapsible-content {
@@ -228,7 +237,7 @@ body {
     opacity: 0;
     overflow: hidden;
     padding: 0 14px;
-    transition: max-height 0.25s ease, opacity 0.2s ease, padding-bottom 0.2s ease;
+    transition: none;
 }
 
 .collapsible-card.is-open .collapsible-content {

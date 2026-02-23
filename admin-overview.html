@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Overview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="admin-overview.css">
+</head>
+
+<body>
+    <div class="page">
+        <header class="topbar">
+            <div class="brand">
+                <img id="brandLogo" src="barangay-logo.jpg" alt="Barangay logo">
+                <div>
+                    <h1 id="systemTitle">BARANGAY REQUEST SYSTEM</h1>
+                    <p>Admin Overview</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a class="header-btn" href="admin-dashboard.html"><i class="fa-solid fa-arrow-left"></i>Back to Dashboard</a>
+                <a class="header-btn danger" href="#" onclick="logoutAdmin(event)"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+            </div>
+        </header>
+
+        <main class="grid">
+            <section id="summary" class="panel">
+                <div class="panel-head">
+                    <h2><i class="fa-solid fa-chart-column"></i>Request Summary</h2>
+                </div>
+                <ul class="summary-list">
+                    <li><span>Total</span><strong id="totalCount">0</strong></li>
+                    <li><span>Pending</span><strong id="pendingCount">0</strong></li>
+                    <li><span>Approved</span><strong id="approvedCount">0</strong></li>
+                    <li><span>Rejected</span><strong id="rejectedCount">0</strong></li>
+                    <li><span>Cancelled</span><strong id="cancelledCount">0</strong></li>
+                </ul>
+            </section>
+
+            <section id="residents" class="panel">
+                <div class="panel-head">
+                    <h2><i class="fa-solid fa-users"></i>Residents</h2>
+                    <p>Total Registered: <strong id="residentTotalCount">0</strong></p>
+                </div>
+                <ul id="residentQuickList" class="detail-list"></ul>
+            </section>
+
+            <section id="activity" class="panel">
+                <div class="panel-head">
+                    <h2><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</h2>
+                </div>
+                <ul id="adminActivityList" class="detail-list"></ul>
+            </section>
+        </main>
+    </div>
+
+    <script src="api-client.js"></script>
+    <script src="admin-overview.js"></script>
+</body>
+
+</html>
