@@ -4,11 +4,18 @@ const residentTotalCount = document.getElementById("residentTotalCount");
 const activityList = document.getElementById("adminActivityList");
 const detailsModal = document.getElementById("detailsModal");
 const detailsGrid = document.getElementById("detailsGrid");
+const adminAvatar = document.getElementById("adminAvatar");
+const adminProfileName = document.getElementById("adminProfileName");
+const adminProfileRole = document.getElementById("adminProfileRole");
+const adminProfileUsername = document.getElementById("adminProfileUsername");
+const adminProfileEmail = document.getElementById("adminProfileEmail");
+const adminProfileContact = document.getElementById("adminProfileContact");
 
 let requests = [];
 let residents = [];
 let activity = [];
 let settings = null;
+let currentAdmin = null;
 
 function escapeHtml(value) {
   return String(value || "")
@@ -61,6 +68,31 @@ function getFilteredRequests() {
 
 function statusClass(status) {
   return `status-${String(status || "").toLowerCase()}`;
+}
+
+function getInitials(name) {
+  const text = String(name || "").trim();
+  if (!text) return "A";
+  const parts = text.split(/\s+/).filter(Boolean);
+  if (!parts.length) return "A";
+  if (parts.length === 1) return parts[0].slice(0, 1).toUpperCase();
+  return `${parts[0].slice(0, 1)}${parts[1].slice(0, 1)}`.toUpperCase();
+}
+
+function renderAdminProfile() {
+  const admin = currentAdmin || {};
+  const fullName = admin.fullName || admin.username || "Admin User";
+  const roleText = admin.adminRole || "Administrator";
+  const username = admin.username || "-";
+  const email = admin.email || "-";
+  const contact = admin.contact || "-";
+
+  if (adminAvatar) adminAvatar.textContent = getInitials(fullName);
+  if (adminProfileName) adminProfileName.textContent = fullName;
+  if (adminProfileRole) adminProfileRole.textContent = roleText;
+  if (adminProfileUsername) adminProfileUsername.textContent = username;
+  if (adminProfileEmail) adminProfileEmail.textContent = email;
+  if (adminProfileContact) adminProfileContact.textContent = contact;
 }
 
 function renderStats() {
@@ -179,23 +211,26 @@ async function loadData() {
   const authUser = apiClient.requireAuth(["admin"]);
   if (!authUser) return false;
 
-  const [settingsPayload, requestsPayload, residentsPayload, activityPayload] = await Promise.all([
+  const [settingsPayload, requestsPayload, residentsPayload, activityPayload, mePayload] = await Promise.all([
     apiClient.get("/admin/settings"),
     apiClient.get("/admin/requests"),
     apiClient.get("/admin/residents"),
-    apiClient.get("/admin/activity?limit=30")
+    apiClient.get("/admin/activity?limit=30"),
+    apiClient.get("/users/me").catch(() => ({ user: authUser }))
   ]);
 
   settings = settingsPayload && settingsPayload.settings ? settingsPayload.settings : {};
   requests = Array.isArray(requestsPayload.requests) ? requestsPayload.requests : [];
   residents = Array.isArray(residentsPayload.residents) ? residentsPayload.residents : [];
   activity = Array.isArray(activityPayload.activity) ? activityPayload.activity : [];
+  currentAdmin = mePayload && mePayload.user ? mePayload.user : authUser;
 
   return true;
 }
 
 function renderAll() {
   applyBranding(settings || {});
+  renderAdminProfile();
   renderTypeOptions();
   renderStats();
   renderRequests();
