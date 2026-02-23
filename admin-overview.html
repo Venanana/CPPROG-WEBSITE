@@ -26,7 +26,13 @@
         </header>
 
         <main class="grid">
-            <section id="summary" class="panel">
+            <nav class="section-nav">
+                <a class="section-link" href="#summary" data-section-link="summary">Request Summary</a>
+                <a class="section-link" href="#residents" data-section-link="residents">Residents</a>
+                <a class="section-link" href="#activity" data-section-link="activity">Recent Activity</a>
+            </nav>
+
+            <section id="summary" class="panel section-panel">
                 <div class="panel-head">
                     <h2><i class="fa-solid fa-chart-column"></i>Request Summary</h2>
                 </div>
@@ -39,7 +45,7 @@
                 </ul>
             </section>
 
-            <section id="residents" class="panel">
+            <section id="residents" class="panel section-panel">
                 <div class="panel-head">
                     <h2><i class="fa-solid fa-users"></i>Residents</h2>
                     <p>Total Registered: <strong id="residentTotalCount">0</strong></p>
@@ -47,7 +53,7 @@
                 <ul id="residentQuickList" class="detail-list"></ul>
             </section>
 
-            <section id="activity" class="panel">
+            <section id="activity" class="panel section-panel">
                 <div class="panel-head">
                     <h2><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</h2>
                 </div>

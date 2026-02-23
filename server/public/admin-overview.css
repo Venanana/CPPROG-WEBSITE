@@ -79,12 +79,38 @@ body {
     gap: 14px;
 }
 
+.section-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.section-link {
+    text-decoration: none;
+    color: #334155;
+    border: 1px solid #d7dde6;
+    background: #fff;
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 13px;
+}
+
+.section-link.active {
+    border-color: #65c466;
+    background: #e9f6ea;
+    color: #1f7a3b;
+}
+
 .panel {
     background: #fff;
     border: 1px solid #e7ebf0;
     border-radius: 12px;
     box-shadow: 0 4px 14px rgba(17, 24, 39, 0.05);
     overflow: hidden;
+}
+
+.section-panel.hidden {
+    display: none;
 }
 
 .panel-head {

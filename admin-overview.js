@@ -6,6 +6,7 @@ let requests = [];
 let residents = [];
 let activity = [];
 let settings = null;
+const sectionIds = ["summary", "residents", "activity"];
 
 function escapeHtml(value) {
   return String(value || "")
@@ -95,6 +96,27 @@ function renderAll() {
   renderSummary();
   renderResidents();
   renderActivity();
+  applySectionFromHash();
+}
+
+function getSectionFromHash() {
+  const hash = String(window.location.hash || "").replace("#", "").trim();
+  return sectionIds.includes(hash) ? hash : "summary";
+}
+
+function applySectionFromHash() {
+  const active = getSectionFromHash();
+
+  sectionIds.forEach((id) => {
+    const panel = document.getElementById(id);
+    if (!panel) return;
+    panel.classList.toggle("hidden", id !== active);
+  });
+
+  document.querySelectorAll("[data-section-link]").forEach((link) => {
+    const isActive = link.getAttribute("data-section-link") === active;
+    link.classList.toggle("active", isActive);
+  });
 }
 
 async function logoutAdmin(event) {
@@ -120,3 +142,5 @@ loadData()
   .catch(function (err) {
     window.alert(err.message || "Failed to load admin overview.");
   });
+
+window.addEventListener("hashchange", applySectionFromHash);
