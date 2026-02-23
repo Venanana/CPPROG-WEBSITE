@@ -198,6 +198,31 @@ function renderAll() {
   renderRequests();
   renderResidents();
   renderActivity();
+  refreshOpenCollapsibleHeights();
+}
+
+function refreshOpenCollapsibleHeights() {
+  document.querySelectorAll(".collapsible-card.is-open .collapsible-content").forEach((content) => {
+    content.style.maxHeight = `${content.scrollHeight}px`;
+  });
+}
+
+function bindCollapsibleCards() {
+  document.querySelectorAll(".collapsible-card").forEach((card) => {
+    const toggleButton = card.querySelector(".collapse-toggle");
+    const content = card.querySelector(".collapsible-content");
+    if (!toggleButton || !content) return;
+
+    toggleButton.addEventListener("click", function () {
+      const willOpen = !card.classList.contains("is-open");
+      card.classList.toggle("is-open", willOpen);
+      toggleButton.setAttribute("aria-expanded", String(willOpen));
+      content.style.maxHeight = willOpen ? `${content.scrollHeight}px` : "0px";
+    });
+
+    toggleButton.setAttribute("aria-expanded", "false");
+    content.style.maxHeight = "0px";
+  });
 }
 
 async function logoutAdmin(event) {
@@ -248,6 +273,8 @@ document.getElementById("closeDetailsBtn").addEventListener("click", hideDetails
 detailsModal.addEventListener("click", function (event) {
   if (event.target.id === "detailsModal") hideDetailsModal();
 });
+
+bindCollapsibleCards();
 
 loadData()
   .then(renderAll)
