@@ -150,18 +150,25 @@ body {
 }
 
 .admin-side-menu {
-    display: grid;
-    gap: 12px;
+    display: block;
     position: sticky;
     top: 12px;
 }
 
-.menu-card {
+.side-unified-box {
     background: #fff;
     border-radius: 12px;
-    padding: 14px;
     border: 1px solid #e7ebf0;
     box-shadow: 0 4px 14px rgba(17, 24, 39, 0.05);
+    overflow: hidden;
+}
+
+.side-block {
+    padding: 14px;
+}
+
+.side-block + .side-block {
+    border-top: 1px solid #eef2f7;
 }
 
 .panel {
@@ -176,7 +183,7 @@ body {
     min-width: 0;
 }
 
-.menu-card h3 {
+.side-block h3 {
     font-size: 15px;
     display: flex;
     align-items: center;
@@ -245,6 +252,10 @@ body {
     font-size: 13px;
     margin-bottom: 8px;
     background: #fff;
+}
+
+.menu-link:last-child {
+    margin-bottom: 0;
 }
 
 .menu-link.active {
