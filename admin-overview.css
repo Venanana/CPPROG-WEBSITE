@@ -279,6 +279,35 @@ body {
     color: #6b7280;
 }
 
+.history-item {
+    padding: 10px 0;
+}
+
+.history-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.status-badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 4px 9px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-approved {
+    background: #d8f2df;
+    color: #1f7a3b;
+}
+
+.status-rejected {
+    background: #ffe0e0;
+    color: #b3261e;
+}
+
 .empty {
     color: #6b7280;
     font-style: italic;

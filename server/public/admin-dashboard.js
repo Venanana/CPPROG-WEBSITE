@@ -203,7 +203,7 @@ function hideDetailsModal() {
 function clearFilters() {
   document.getElementById("searchInput").value = "";
   document.getElementById("typeFilter").value = "";
-  document.getElementById("statusFilter").value = "";
+  document.getElementById("statusFilter").value = "Pending";
   document.getElementById("dateFilter").value = "";
   renderRequests();
 }

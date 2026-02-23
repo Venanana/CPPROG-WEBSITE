@@ -1,6 +1,7 @@
 const residentQuickList = document.getElementById("residentQuickList");
 const residentTotalCount = document.getElementById("residentTotalCount");
 const activityList = document.getElementById("adminActivityList");
+const historyList = document.getElementById("adminHistoryList");
 const adminAvatar = document.getElementById("adminAvatar");
 const adminProfileName = document.getElementById("adminProfileName");
 const adminProfileRole = document.getElementById("adminProfileRole");
@@ -11,9 +12,10 @@ const overviewTitle = document.getElementById("overviewTitle");
 
 let residents = [];
 let activity = [];
+let requests = [];
 let settings = null;
 let currentAdmin = null;
-const sectionIds = ["residents", "activity"];
+const sectionIds = ["residents", "activity", "history"];
 
 function escapeHtml(value) {
   return String(value || "")
@@ -83,20 +85,48 @@ function renderActivity() {
   `).join("");
 }
 
+function statusClass(status) {
+  return `status-${String(status || "").toLowerCase()}`;
+}
+
+function renderHistory() {
+  if (!historyList) return;
+  const processed = requests
+    .filter((item) => item.status === "Approved" || item.status === "Rejected")
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+
+  if (!processed.length) {
+    historyList.innerHTML = "<li class='empty'>No approved or rejected requests yet.</li>";
+    return;
+  }
+
+  historyList.innerHTML = processed.slice(0, 60).map((item) => `
+    <li class="history-item">
+      <div class="history-row">
+        <strong>${escapeHtml(item.user || "-")}</strong>
+        <span class="status-badge ${statusClass(item.status)}">${escapeHtml(item.status || "-")}</span>
+      </div>
+      <small>${escapeHtml(item.type || "-")} | ${escapeHtml(item.purpose || "-")} | ${escapeHtml(item.date || "-")}</small>
+    </li>
+  `).join("");
+}
+
 async function loadData() {
   const authUser = apiClient.requireAuth(["admin"]);
   if (!authUser) return false;
 
-  const [settingsPayload, residentsPayload, activityPayload, mePayload] = await Promise.all([
+  const [settingsPayload, residentsPayload, activityPayload, requestsPayload, mePayload] = await Promise.all([
     apiClient.get("/admin/settings"),
     apiClient.get("/admin/residents"),
     apiClient.get("/admin/activity?limit=60"),
+    apiClient.get("/admin/requests"),
     apiClient.get("/users/me").catch(() => ({ user: authUser }))
   ]);
 
   settings = settingsPayload && settingsPayload.settings ? settingsPayload.settings : {};
   residents = Array.isArray(residentsPayload.residents) ? residentsPayload.residents : [];
   activity = Array.isArray(activityPayload.activity) ? activityPayload.activity : [];
+  requests = Array.isArray(requestsPayload.requests) ? requestsPayload.requests : [];
   currentAdmin = mePayload && mePayload.user ? mePayload.user : authUser;
   return true;
 }
@@ -106,6 +136,7 @@ function renderAll() {
   renderAdminProfile();
   renderResidents();
   renderActivity();
+  renderHistory();
   applySectionFromHash();
 }
 
@@ -122,7 +153,8 @@ function applySectionFromHash() {
   const active = getSectionFromHash();
   const titleMap = {
     residents: "Residents",
-    activity: "Recent Activity"
+    activity: "Recent Activity",
+    history: "History"
   };
 
   sectionIds.forEach((id) => {
