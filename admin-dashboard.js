@@ -1,5 +1,6 @@
 const requestsBody = document.getElementById("adminRequestsBody");
-const residentBody = document.getElementById("residentTableBody");
+const residentQuickList = document.getElementById("residentQuickList");
+const residentTotalCount = document.getElementById("residentTotalCount");
 const activityList = document.getElementById("adminActivityList");
 const detailsModal = document.getElementById("detailsModal");
 const detailsGrid = document.getElementById("detailsGrid");
@@ -110,22 +111,20 @@ function renderRequests() {
 }
 
 function renderResidents() {
+  if (residentTotalCount) residentTotalCount.textContent = residents.length;
+  if (!residentQuickList) return;
+
   if (!residents.length) {
-    residentBody.innerHTML = "<tr><td colspan='6' class='empty'>No registered residents found.</td></tr>";
+    residentQuickList.innerHTML = "<li class='empty'>No registered residents found.</li>";
     return;
   }
 
-  residentBody.innerHTML = residents.map(function (item) {
-    const createdAt = item.createdAt ? String(item.createdAt).slice(0, 10) : "-";
+  residentQuickList.innerHTML = residents.slice(0, 8).map(function (item) {
     return `
-      <tr>
-        <td>${escapeHtml(item.fullName || "-")}</td>
-        <td>${escapeHtml(item.username || "-")}</td>
-        <td>${escapeHtml(item.email || "-")}</td>
-        <td>${escapeHtml(item.contact || "-")}</td>
-        <td>${escapeHtml(item.dob || "-")}</td>
-        <td>${escapeHtml(createdAt)}</td>
-      </tr>
+      <li>
+        ${escapeHtml(item.fullName || "-")}
+        <small>${escapeHtml(item.username || "-")} | ${escapeHtml(item.contact || "No contact")}</small>
+      </li>
     `;
   }).join("");
 }

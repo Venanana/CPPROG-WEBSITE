@@ -19,38 +19,41 @@
                     <p id="adminSubtitle">Admin Request Management</p>
                 </div>
             </div>
-            <div class="header-actions">
-                <a class="header-btn" href="admin-settings.html"><i class="fa-solid fa-gear"></i>Admin Settings</a>
-                <a class="header-btn danger" href="#" onclick="logoutAdmin(event)"><i
-                        class="fa-solid fa-right-from-bracket"></i>Logout</a>
-            </div>
         </header>
 
         <main class="content">
-            <section class="stats-grid">
-                <article class="stat-card">
-                    <p>Total Requests</p>
-                    <h2 id="totalCount">0</h2>
-                </article>
-                <article class="stat-card pending">
-                    <p>Pending</p>
-                    <h2 id="pendingCount">0</h2>
-                </article>
-                <article class="stat-card approved">
-                    <p>Approved</p>
-                    <h2 id="approvedCount">0</h2>
-                </article>
-                <article class="stat-card rejected">
-                    <p>Rejected</p>
-                    <h2 id="rejectedCount">0</h2>
-                </article>
-                <article class="stat-card cancelled">
-                    <p>Cancelled</p>
-                    <h2 id="cancelledCount">0</h2>
-                </article>
-            </section>
+            <aside class="admin-side-menu">
+                <section class="menu-card">
+                    <h3><i class="fa-solid fa-bars"></i>Menu</h3>
+                    <a class="menu-link active" href="#"><i class="fa-solid fa-inbox"></i>User Submissions</a>
+                    <a class="menu-link" href="admin-settings.html"><i class="fa-solid fa-gear"></i>Admin Settings</a>
+                    <a class="menu-link danger" href="#" onclick="logoutAdmin(event)"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+                </section>
 
-            <section class="panel">
+                <section class="menu-card">
+                    <h3><i class="fa-solid fa-chart-column"></i>Request Summary</h3>
+                    <ul class="summary-list">
+                        <li><span>Total</span><strong id="totalCount">0</strong></li>
+                        <li><span>Pending</span><strong id="pendingCount">0</strong></li>
+                        <li><span>Approved</span><strong id="approvedCount">0</strong></li>
+                        <li><span>Rejected</span><strong id="rejectedCount">0</strong></li>
+                        <li><span>Cancelled</span><strong id="cancelledCount">0</strong></li>
+                    </ul>
+                </section>
+
+                <section class="menu-card">
+                    <h3><i class="fa-solid fa-users"></i>Residents</h3>
+                    <p class="menu-note">Total Registered: <strong id="residentTotalCount">0</strong></p>
+                    <ul id="residentQuickList" class="side-list"></ul>
+                </section>
+
+                <section class="menu-card">
+                    <h3><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</h3>
+                    <ul id="adminActivityList" class="side-list"></ul>
+                </section>
+            </aside>
+
+            <section class="panel request-panel">
                 <div class="panel-head">
                     <h3><i class="fa-solid fa-inbox"></i>User Request Submissions</h3>
                 </div>
@@ -86,36 +89,6 @@
                         <tbody id="adminRequestsBody"></tbody>
                     </table>
                 </div>
-            </section>
-
-            <section class="lower-grid">
-                <article class="panel">
-                    <div class="panel-head">
-                        <h3><i class="fa-solid fa-users"></i>Registered Residents</h3>
-                    </div>
-                    <div class="table-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Full Name</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Contact</th>
-                                    <th>DOB</th>
-                                    <th>Registered</th>
-                                </tr>
-                            </thead>
-                            <tbody id="residentTableBody"></tbody>
-                        </table>
-                    </div>
-                </article>
-
-                <article class="panel">
-                    <div class="panel-head">
-                        <h3><i class="fa-solid fa-clock-rotate-left"></i>Recent Admin Activity</h3>
-                    </div>
-                    <ul id="adminActivityList" class="activity-list"></ul>
-                </article>
             </section>
         </main>
     </div>
