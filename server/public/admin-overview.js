@@ -9,12 +9,11 @@ const adminProfileUsername = document.getElementById("adminProfileUsername");
 const adminProfileContact = document.getElementById("adminProfileContact");
 const overviewTitle = document.getElementById("overviewTitle");
 
-let requests = [];
 let residents = [];
 let activity = [];
 let settings = null;
 let currentAdmin = null;
-const sectionIds = ["summary", "residents", "activity"];
+const sectionIds = ["residents", "activity"];
 
 function escapeHtml(value) {
   return String(value || "")
@@ -53,25 +52,6 @@ function renderAdminProfile() {
   if (adminProfileContact) adminProfileContact.textContent = admin.contact || "-";
 }
 
-function renderSummary() {
-  const pending = requests.filter((item) => item.status === "Pending").length;
-  const approved = requests.filter((item) => item.status === "Approved").length;
-  const rejected = requests.filter((item) => item.status === "Rejected").length;
-  const cancelled = requests.filter((item) => item.status === "Cancelled").length;
-
-  const total = document.getElementById("totalCount");
-  const pendingEl = document.getElementById("pendingCount");
-  const approvedEl = document.getElementById("approvedCount");
-  const rejectedEl = document.getElementById("rejectedCount");
-  const cancelledEl = document.getElementById("cancelledCount");
-
-  if (total) total.textContent = requests.length;
-  if (pendingEl) pendingEl.textContent = pending;
-  if (approvedEl) approvedEl.textContent = approved;
-  if (rejectedEl) rejectedEl.textContent = rejected;
-  if (cancelledEl) cancelledEl.textContent = cancelled;
-}
-
 function renderResidents() {
   if (residentTotalCount) residentTotalCount.textContent = residents.length;
   if (!residentQuickList) return;
@@ -107,16 +87,14 @@ async function loadData() {
   const authUser = apiClient.requireAuth(["admin"]);
   if (!authUser) return false;
 
-  const [settingsPayload, requestsPayload, residentsPayload, activityPayload, mePayload] = await Promise.all([
+  const [settingsPayload, residentsPayload, activityPayload, mePayload] = await Promise.all([
     apiClient.get("/admin/settings"),
-    apiClient.get("/admin/requests"),
     apiClient.get("/admin/residents"),
     apiClient.get("/admin/activity?limit=60"),
     apiClient.get("/users/me").catch(() => ({ user: authUser }))
   ]);
 
   settings = settingsPayload && settingsPayload.settings ? settingsPayload.settings : {};
-  requests = Array.isArray(requestsPayload.requests) ? requestsPayload.requests : [];
   residents = Array.isArray(residentsPayload.residents) ? residentsPayload.residents : [];
   activity = Array.isArray(activityPayload.activity) ? activityPayload.activity : [];
   currentAdmin = mePayload && mePayload.user ? mePayload.user : authUser;
@@ -126,7 +104,6 @@ async function loadData() {
 function renderAll() {
   applyBranding(settings || {});
   renderAdminProfile();
-  renderSummary();
   renderResidents();
   renderActivity();
   applySectionFromHash();
@@ -134,13 +111,16 @@ function renderAll() {
 
 function getSectionFromHash() {
   const hash = String(window.location.hash || "").replace("#", "").trim();
-  return sectionIds.includes(hash) ? hash : "summary";
+  if (hash === "summary" || hash === "overview") {
+    window.location.href = "admin-dashboard.html";
+    return "residents";
+  }
+  return sectionIds.includes(hash) ? hash : "residents";
 }
 
 function applySectionFromHash() {
   const active = getSectionFromHash();
   const titleMap = {
-    summary: "Request Summary",
     residents: "Residents",
     activity: "Recent Activity"
   };

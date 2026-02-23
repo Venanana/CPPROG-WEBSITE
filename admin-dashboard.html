@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Overview</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="admin-dashboard.css">
 </head>
@@ -40,8 +40,7 @@
                 <section class="side-unified-box">
                     <div class="side-block side-menu-block">
                         <h3><i class="fa-solid fa-bars"></i>Menu</h3>
-                        <a class="menu-link active" href="#"><i class="fa-solid fa-inbox"></i>User Submissions</a>
-                        <a class="menu-link" href="admin-overview.html#summary"><i class="fa-solid fa-chart-column"></i>Request Summary</a>
+                        <a class="menu-link active" href="admin-dashboard.html"><i class="fa-solid fa-table-list"></i>Overview</a>
                         <a class="menu-link" href="admin-overview.html#residents"><i class="fa-solid fa-users"></i>Residents</a>
                         <a class="menu-link" href="admin-overview.html#activity"><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</a>
                         <a class="menu-link" href="admin-settings.html"><i class="fa-solid fa-gear"></i>Admin Settings</a>
@@ -52,8 +51,23 @@
 
             <section class="panel request-panel">
                 <div class="panel-head">
-                    <h3><i class="fa-solid fa-inbox"></i>User Request Submissions</h3>
+                    <h3><i class="fa-solid fa-table-list"></i>Overview</h3>
                 </div>
+
+                <div class="summary-strip">
+                    <ul class="summary-list">
+                        <li><span>Total</span><strong id="totalCount">0</strong></li>
+                        <li><span>Pending</span><strong id="pendingCount">0</strong></li>
+                        <li><span>Approved</span><strong id="approvedCount">0</strong></li>
+                        <li><span>Rejected</span><strong id="rejectedCount">0</strong></li>
+                        <li><span>Cancelled</span><strong id="cancelledCount">0</strong></li>
+                    </ul>
+                </div>
+
+                <div class="panel-subhead">
+                    <h4><i class="fa-solid fa-inbox"></i>User Submissions</h4>
+                </div>
+
                 <div class="filters">
                     <input id="searchInput" type="text" placeholder="Search resident, type, purpose, contact">
                     <select id="typeFilter">
