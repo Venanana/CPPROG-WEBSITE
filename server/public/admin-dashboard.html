@@ -19,6 +19,20 @@
                     <p id="adminSubtitle">Admin Request Management</p>
                 </div>
             </div>
+            <div class="topbar-right">
+                <div class="header-profile-card">
+                    <div id="adminAvatar" class="admin-avatar">A</div>
+                    <div class="header-profile-copy">
+                        <strong id="adminProfileName">Loading...</strong>
+                        <small id="adminProfileRole">Admin</small>
+                        <span id="adminProfileEmail" class="header-email">-</span>
+                    </div>
+                    <div class="header-profile-meta">
+                        <span id="adminProfileUsername" class="meta-pill">-</span>
+                        <span id="adminProfileContact" class="meta-pill">-</span>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <main class="content">
@@ -28,22 +42,6 @@
                     <a class="menu-link active" href="#"><i class="fa-solid fa-inbox"></i>User Submissions</a>
                     <a class="menu-link" href="admin-settings.html"><i class="fa-solid fa-gear"></i>Admin Settings</a>
                     <a class="menu-link danger" href="#" onclick="logoutAdmin(event)"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
-                </section>
-
-                <section class="menu-card admin-profile-card">
-                    <h3><i class="fa-solid fa-user-shield"></i>Admin Profile</h3>
-                    <div class="admin-profile-head">
-                        <div id="adminAvatar" class="admin-avatar">A</div>
-                        <div class="admin-profile-copy">
-                            <strong id="adminProfileName">Loading...</strong>
-                            <small id="adminProfileRole">Admin</small>
-                        </div>
-                    </div>
-                    <ul class="profile-meta-list">
-                        <li><span>Username</span><strong id="adminProfileUsername">-</strong></li>
-                        <li><span>Email</span><strong id="adminProfileEmail">-</strong></li>
-                        <li><span>Contact</span><strong id="adminProfileContact">-</strong></li>
-                    </ul>
                 </section>
 
                 <section class="menu-card collapsible-card" id="summaryCard">
