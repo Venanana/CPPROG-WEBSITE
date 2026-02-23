@@ -3,21 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barangay Request System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="login.css">
 </head>
 
 <body>
-
-    <div class="container">
-
-        <div class="header">
+    <main class="container">
+        <header class="header">
             <img class="header-logo" src="barangay-logo.jpg" alt="Barangay logo">
             <h1 id="systemTitle">BARANGAY REQUEST SYSTEM</h1>
-        </div>
+        </header>
 
-        <div class="auth-panels">
+        <section class="auth-panels" aria-label="Sign in panels">
             <form id="userLoginForm" class="form user-form" action="landingpage.html" method="get">
                 <div class="role">
                     <span class="role-icon"><i class="fa-regular fa-user"></i></span>
@@ -80,9 +79,8 @@
                     <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
                 </div>
             </form>
-        </div>
-
-    </div>
+        </section>
+    </main>
 
         <script src="api-client.js"></script>
         <script src="password-toggle.js"></script>
