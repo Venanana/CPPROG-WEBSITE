@@ -279,6 +279,25 @@ body {
     color: #6b7280;
 }
 
+#adminActivityList {
+    max-height: clamp(300px, 58vh, 640px);
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+#adminActivityList::-webkit-scrollbar {
+    width: 8px;
+}
+
+#adminActivityList::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+}
+
+#adminActivityList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 .history-item {
     padding: 10px 0;
 }
