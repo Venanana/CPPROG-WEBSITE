@@ -1,7 +1,10 @@
 const residentQuickList = document.getElementById("residentQuickList");
 const residentTotalCount = document.getElementById("residentTotalCount");
 const activityList = document.getElementById("adminActivityList");
-const historyList = document.getElementById("adminHistoryList");
+const approvedList = document.getElementById("adminApprovedList");
+const rejectedList = document.getElementById("adminRejectedList");
+const archivedList = document.getElementById("adminArchivedList");
+const binList = document.getElementById("adminBinList");
 const adminAvatar = document.getElementById("adminAvatar");
 const adminProfileName = document.getElementById("adminProfileName");
 const adminProfileRole = document.getElementById("adminProfileRole");
@@ -15,7 +18,7 @@ let activity = [];
 let requests = [];
 let settings = null;
 let currentAdmin = null;
-const sectionIds = ["residents", "activity", "history"];
+const sectionIds = ["residents", "activity", "history", "archived", "bin"];
 
 function escapeHtml(value) {
   return String(value || "")
@@ -89,24 +92,76 @@ function statusClass(status) {
   return `status-${String(status || "").toLowerCase()}`;
 }
 
-function renderHistory() {
-  if (!historyList) return;
-  const processed = requests
-    .filter((item) => item.status === "Approved" || item.status === "Rejected")
-    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
-
-  if (!processed.length) {
-    historyList.innerHTML = "<li class='empty'>No approved or rejected requests yet.</li>";
+function renderHistoryGroup(targetList, rows, statusText, iconClass) {
+  if (!targetList) return;
+  if (!rows.length) {
+    targetList.innerHTML = `<li class='empty'>No ${statusText.toLowerCase()} requests yet.</li>`;
     return;
   }
 
-  historyList.innerHTML = processed.slice(0, 60).map((item) => `
+  targetList.innerHTML = rows.slice(0, 40).map((item) => `
     <li class="history-item">
       <div class="history-row">
         <strong>${escapeHtml(item.user || "-")}</strong>
-        <span class="status-badge ${statusClass(item.status)}">${escapeHtml(item.status || "-")}</span>
+        <span class="status-badge ${statusClass(item.status)}"><i class="fa-solid ${iconClass}"></i>${escapeHtml(item.status || "-")}</span>
       </div>
       <small>${escapeHtml(item.type || "-")} | ${escapeHtml(item.purpose || "-")} | ${escapeHtml(item.date || "-")}</small>
+    </li>
+  `).join("");
+}
+
+function renderHistory() {
+  const approved = requests
+    .filter((item) => item.status === "Approved")
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+
+  const rejected = requests
+    .filter((item) => item.status === "Rejected")
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+
+  renderHistoryGroup(approvedList, approved, "Approved", "fa-circle-check");
+  renderHistoryGroup(rejectedList, rejected, "Rejected", "fa-circle-xmark");
+}
+
+function renderArchived() {
+  if (!archivedList) return;
+  const archived = requests
+    .filter((item) => item.status === "Cancelled")
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+
+  if (!archived.length) {
+    archivedList.innerHTML = "<li class='empty'>No archived requests yet.</li>";
+    return;
+  }
+
+  archivedList.innerHTML = archived.slice(0, 40).map((item) => `
+    <li class="history-item">
+      <div class="history-row">
+        <strong>${escapeHtml(item.user || "-")}</strong>
+        <span class="status-badge ${statusClass(item.status)}"><i class="fa-solid fa-folder-open"></i>${escapeHtml(item.status || "-")}</span>
+      </div>
+      <small>${escapeHtml(item.type || "-")} | ${escapeHtml(item.purpose || "-")} | ${escapeHtml(item.date || "-")}</small>
+    </li>
+  `).join("");
+}
+
+function renderBin() {
+  if (!binList) return;
+
+  const clearEvents = activity.filter((item) => {
+    const message = String(item.message || "").toLowerCase();
+    return message.includes("cleared") || message.includes("deleted");
+  });
+
+  if (!clearEvents.length) {
+    binList.innerHTML = "<li class='empty'>Bin is empty.</li>";
+    return;
+  }
+
+  binList.innerHTML = clearEvents.slice(0, 30).map((item) => `
+    <li>
+      ${escapeHtml(item.message || "-")}
+      <small>${escapeHtml(item.date || "-")}</small>
     </li>
   `).join("");
 }
@@ -137,6 +192,8 @@ function renderAll() {
   renderResidents();
   renderActivity();
   renderHistory();
+  renderArchived();
+  renderBin();
   applySectionFromHash();
 }
 
@@ -154,7 +211,9 @@ function applySectionFromHash() {
   const titleMap = {
     residents: { label: "Residents", icon: "fa-users" },
     activity: { label: "Recent Activity", icon: "fa-clock-rotate-left" },
-    history: { label: "Approved/Rejected", icon: "fa-check" }
+    history: { label: "Approved/Rejected", icon: "fa-check" },
+    archived: { label: "Archived", icon: "fa-folder-open" },
+    bin: { label: "Bin", icon: "fa-trash" }
   };
 
   sectionIds.forEach((id) => {

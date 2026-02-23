@@ -70,6 +70,23 @@ body {
     min-width: 310px;
 }
 
+.avatar-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.avatar-role {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: rgba(255, 255, 255, 0.92);
+    text-transform: uppercase;
+    line-height: 1;
+}
+
 .admin-avatar {
     width: 44px;
     height: 44px;
@@ -302,6 +319,42 @@ body {
     padding: 10px 0;
 }
 
+.history-groups {
+    display: grid;
+    gap: 16px;
+}
+
+.history-group {
+    border: 1px solid #e7ebf0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: #f8fafc;
+}
+
+.history-heading {
+    margin: 0 0 8px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.history-heading.approved {
+    color: #1f7a3b;
+}
+
+.history-heading.rejected {
+    color: #b3261e;
+}
+
+.history-heading.archived {
+    color: #475569;
+}
+
+.history-heading.bin {
+    color: #7f1d1d;
+}
+
 .history-row {
     display: flex;
     align-items: center;
@@ -317,6 +370,11 @@ body {
     font-weight: 600;
 }
 
+.status-badge i {
+    margin-right: 5px;
+    font-size: 10px;
+}
+
 .status-approved {
     background: #d8f2df;
     color: #1f7a3b;
@@ -325,6 +383,11 @@ body {
 .status-rejected {
     background: #ffe0e0;
     color: #b3261e;
+}
+
+.status-cancelled {
+    background: #ececec;
+    color: #555;
 }
 
 .empty {
