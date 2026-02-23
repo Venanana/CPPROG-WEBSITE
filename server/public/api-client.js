@@ -2,6 +2,7 @@
   const ACCESS_TOKEN_KEY = "auth_access_token_v1";
   const REFRESH_TOKEN_KEY = "auth_refresh_token_v1";
   const AUTH_USER_KEY = "auth_user_v1";
+  let refreshInFlight = null;
 
   function resolveBaseUrl() {
     if (global.API_BASE_URL) return String(global.API_BASE_URL);
@@ -55,17 +56,29 @@
   }
 
   async function refreshAccessToken() {
+    if (refreshInFlight) {
+      return refreshInFlight;
+    }
+
     const session = getSession();
     if (!session.refreshToken) return null;
 
-    const response = await fetch(`${apiBaseUrl}/auth/refresh`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refreshToken: session.refreshToken })
-    });
-    const payload = await parseResponse(response);
-    setSession({ accessToken: payload.accessToken, refreshToken: payload.refreshToken });
-    return payload.accessToken;
+    refreshInFlight = (async function runRefresh() {
+      const response = await fetch(`${apiBaseUrl}/auth/refresh`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refreshToken: session.refreshToken })
+      });
+      const payload = await parseResponse(response);
+      setSession({ accessToken: payload.accessToken, refreshToken: payload.refreshToken });
+      return payload.accessToken;
+    })();
+
+    try {
+      return await refreshInFlight;
+    } finally {
+      refreshInFlight = null;
+    }
   }
 
   async function request(path, options) {
