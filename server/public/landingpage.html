@@ -19,9 +19,20 @@
         <div class="right-header">
             <div class="header-circle-group">
                 <div class="notification-wrap">
-                    <button id="notificationBtn" class="notification-btn"><i class="fa-regular fa-bell"></i><span id="notifCount" class="notif-count">0</span></button>
+                    <button id="notificationBtn" class="notification-btn" type="button">
+                        <i class="fa-regular fa-bell"></i>
+                        <span id="notifCount" class="notif-count">0</span>
+                    </button>
                     <div id="notificationPanel" class="notification-panel">
-                        <h4>Updates</h4>
+                        <div class="notif-head">
+                            <h4>Updates</h4>
+                            <button id="markAllReadBtn" class="notif-action-btn" type="button">Mark all read</button>
+                        </div>
+                        <div id="notifFilterGroup" class="notif-filter-group">
+                            <button class="notif-filter-btn active" data-notif-filter="all" type="button">All</button>
+                            <button class="notif-filter-btn" data-notif-filter="unread" type="button">Unread</button>
+                            <button class="notif-filter-btn" data-notif-filter="archived" type="button">Archived</button>
+                        </div>
                         <ul id="notificationList"></ul>
                     </div>
                 </div>
@@ -54,11 +65,29 @@
 
         <main class="main">
             <section class="dashboard-hero">
-                <div>
+                <div class="hero-copy">
                     <h1><i class="fa-solid fa-gauge-high"></i>Dashboard</h1>
                     <p>Track and manage your barangay requests in one place.</p>
                 </div>
+                <div class="hero-side">
+                    <div class="completion-card">
+                        <span>Profile Completion</span>
+                        <div class="completion-value">
+                            <strong id="profileCompletionText">0%</strong>
+                            <small id="profileCompletionHint">Complete your profile for faster request processing.</small>
+                        </div>
+                        <div class="progress-track">
+                            <span id="profileCompletionBar"></span>
+                        </div>
+                    </div>
+                    <button id="heroNewRequestBtn" class="hero-new-btn" type="button"><i class="fa-solid fa-plus"></i>New Request</button>
+                </div>
             </section>
+
+            <div id="dashboardBanner" class="dashboard-banner hidden">
+                <span id="dashboardBannerText"></span>
+                <button id="dashboardRetryBtn" class="banner-btn hidden" type="button">Retry</button>
+            </div>
 
             <div class="cards">
                 <div id="allCard" class="card clickable-card">
@@ -82,6 +111,14 @@
                 <div class="table-section">
                     <h2 id="requestTableTitle"><i class="fa-solid fa-table-list"></i><span id="requestTableLabel">My Requests</span></h2>
 
+                    <div id="quickChipGroup" class="quick-chips">
+                        <button class="quick-chip active" data-chip="all" type="button">All</button>
+                        <button class="quick-chip" data-chip="pending" type="button">Pending</button>
+                        <button class="quick-chip" data-chip="approved" type="button">Approved</button>
+                        <button class="quick-chip" data-chip="thisWeek" type="button">This Week</button>
+                        <button class="quick-chip" data-chip="needsAction" type="button">Needs Action</button>
+                    </div>
+
                     <div class="table-controls">
                         <input id="searchInput" type="text" placeholder="Search request type">
                         <select id="typeFilter">
@@ -95,24 +132,45 @@
                             <option>Cancelled</option>
                         </select>
                         <input id="dateFilter" type="date">
-                        <button id="clearFiltersBtn" class="clear-btn">Clear</button>
+                        <button id="clearFiltersBtn" class="clear-btn" type="button">Clear</button>
+                        <button id="clearHistoryBtn" class="clear-history-btn" type="button">Clear Non-Pending</button>
                     </div>
 
                     <table>
-                        <tr>
-                            <th>Request Type</th>
-                            <th>Status</th>
-                            <th>Submitted Date</th>
-                            <th>Cancel</th>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Request Type</th>
+                                <th>Status</th>
+                                <th>Submitted Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
                         <tbody id="requestsTableBody"></tbody>
                     </table>
                 </div>
 
-                <aside class="activity-panel">
-                    <h3><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</h3>
-                    <ul id="activityList"></ul>
-                </aside>
+                <div class="side-stack">
+                    <aside class="activity-panel">
+                        <h3><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</h3>
+                        <ul id="activityList"></ul>
+                    </aside>
+
+                    <section class="faq-panel">
+                        <h3><i class="fa-solid fa-circle-question"></i>Quick Help</h3>
+                        <details>
+                            <summary>How long does approval usually take?</summary>
+                            <p>Most requests are reviewed within 1 to 3 business days depending on document type.</p>
+                        </details>
+                        <details>
+                            <summary>Can I cancel a request?</summary>
+                            <p>You can cancel requests while they are still in Pending status from your dashboard table.</p>
+                        </details>
+                        <details>
+                            <summary>Where can I see complete details?</summary>
+                            <p>Use the Details action in each row to view full request info and timeline progress.</p>
+                        </details>
+                    </section>
+                </div>
             </section>
         </main>
     </div>
@@ -123,8 +181,21 @@
             <p>What type of request do you want to file?</p>
             <div id="requestTypeList" class="request-type-list"></div>
             <div class="modal-actions">
-                <button id="closeRequestTypeBtn" class="modal-no">Cancel</button>
-                <button id="confirmRequestTypeBtn" class="modal-yes" disabled>Confirm</button>
+                <button id="closeRequestTypeBtn" class="modal-no" type="button">Cancel</button>
+                <button id="confirmRequestTypeBtn" class="modal-yes" type="button" disabled>Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="requestDetailsModal" class="modal-overlay">
+        <div class="modal-box details-modal">
+            <h3><i class="fa-solid fa-file-circle-check"></i>Request Details</h3>
+            <div id="requestDetailsContent" class="details-grid"></div>
+            <h4>Timeline</h4>
+            <ul id="requestTimeline" class="timeline-list"></ul>
+            <div class="modal-actions">
+                <button id="detailsReceiptBtn" class="modal-no" type="button">Download Receipt</button>
+                <button id="detailsCloseBtn" class="modal-yes" type="button">Close</button>
             </div>
         </div>
     </div>
@@ -134,8 +205,8 @@
             <h3><i class="fa-solid fa-triangle-exclamation"></i>Cancel Request</h3>
             <p>Are you sure you want to cancel this request?</p>
             <div class="modal-actions">
-                <button id="cancelConfirmNoBtn" class="modal-no">No</button>
-                <button id="cancelConfirmYesBtn" class="modal-yes">Yes, Cancel</button>
+                <button id="cancelConfirmNoBtn" class="modal-no" type="button">No</button>
+                <button id="cancelConfirmYesBtn" class="modal-yes" type="button">Yes, Cancel</button>
             </div>
         </div>
     </div>
@@ -145,17 +216,14 @@
             <h3><i class="fa-solid fa-broom"></i>Clear Non-Pending</h3>
             <p id="clearConfirmText">Clear all non-pending requests?</p>
             <div class="modal-actions">
-                <button id="clearConfirmNoBtn" class="modal-no">No</button>
-                <button id="clearConfirmYesBtn" class="modal-yes">Yes, Clear</button>
+                <button id="clearConfirmNoBtn" class="modal-no" type="button">No</button>
+                <button id="clearConfirmYesBtn" class="modal-yes" type="button">Yes, Clear</button>
             </div>
         </div>
     </div>
 
-        <script src="api-client.js"></script>
-        <script src="landingpage.js"></script>
+    <script src="api-client.js"></script>
+    <script src="landingpage.js"></script>
 </body>
 
 </html>
-
-
-
