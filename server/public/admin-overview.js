@@ -1,11 +1,19 @@
 const residentQuickList = document.getElementById("residentQuickList");
 const residentTotalCount = document.getElementById("residentTotalCount");
 const activityList = document.getElementById("adminActivityList");
+const adminAvatar = document.getElementById("adminAvatar");
+const adminProfileName = document.getElementById("adminProfileName");
+const adminProfileRole = document.getElementById("adminProfileRole");
+const adminProfileEmail = document.getElementById("adminProfileEmail");
+const adminProfileUsername = document.getElementById("adminProfileUsername");
+const adminProfileContact = document.getElementById("adminProfileContact");
+const overviewTitle = document.getElementById("overviewTitle");
 
 let requests = [];
 let residents = [];
 let activity = [];
 let settings = null;
+let currentAdmin = null;
 const sectionIds = ["summary", "residents", "activity"];
 
 function escapeHtml(value) {
@@ -21,6 +29,28 @@ function applyBranding(systemSettings) {
   const branding = systemSettings && systemSettings.branding ? systemSettings.branding : {};
   document.getElementById("systemTitle").textContent = branding.systemName || "BARANGAY REQUEST SYSTEM";
   document.getElementById("brandLogo").src = branding.logo || "barangay-logo.jpg";
+}
+
+function getInitials(name) {
+  const text = String(name || "").trim();
+  if (!text) return "A";
+  const parts = text.split(/\s+/).filter(Boolean);
+  if (!parts.length) return "A";
+  if (parts.length === 1) return parts[0].slice(0, 1).toUpperCase();
+  return `${parts[0].slice(0, 1)}${parts[1].slice(0, 1)}`.toUpperCase();
+}
+
+function renderAdminProfile() {
+  const admin = currentAdmin || {};
+  const fullName = admin.fullName || admin.username || "Admin User";
+  const roleText = admin.adminRole || "Administrator";
+
+  if (adminAvatar) adminAvatar.textContent = getInitials(fullName);
+  if (adminProfileName) adminProfileName.textContent = fullName;
+  if (adminProfileRole) adminProfileRole.textContent = roleText;
+  if (adminProfileEmail) adminProfileEmail.textContent = admin.email || "-";
+  if (adminProfileUsername) adminProfileUsername.textContent = admin.username || "-";
+  if (adminProfileContact) adminProfileContact.textContent = admin.contact || "-";
 }
 
 function renderSummary() {
@@ -77,22 +107,25 @@ async function loadData() {
   const authUser = apiClient.requireAuth(["admin"]);
   if (!authUser) return false;
 
-  const [settingsPayload, requestsPayload, residentsPayload, activityPayload] = await Promise.all([
+  const [settingsPayload, requestsPayload, residentsPayload, activityPayload, mePayload] = await Promise.all([
     apiClient.get("/admin/settings"),
     apiClient.get("/admin/requests"),
     apiClient.get("/admin/residents"),
-    apiClient.get("/admin/activity?limit=60")
+    apiClient.get("/admin/activity?limit=60"),
+    apiClient.get("/users/me").catch(() => ({ user: authUser }))
   ]);
 
   settings = settingsPayload && settingsPayload.settings ? settingsPayload.settings : {};
   requests = Array.isArray(requestsPayload.requests) ? requestsPayload.requests : [];
   residents = Array.isArray(residentsPayload.residents) ? residentsPayload.residents : [];
   activity = Array.isArray(activityPayload.activity) ? activityPayload.activity : [];
+  currentAdmin = mePayload && mePayload.user ? mePayload.user : authUser;
   return true;
 }
 
 function renderAll() {
   applyBranding(settings || {});
+  renderAdminProfile();
   renderSummary();
   renderResidents();
   renderActivity();
@@ -106,6 +139,11 @@ function getSectionFromHash() {
 
 function applySectionFromHash() {
   const active = getSectionFromHash();
+  const titleMap = {
+    summary: "Request Summary",
+    residents: "Residents",
+    activity: "Recent Activity"
+  };
 
   sectionIds.forEach((id) => {
     const panel = document.getElementById(id);
@@ -117,6 +155,10 @@ function applySectionFromHash() {
     const isActive = link.getAttribute("data-section-link") === active;
     link.classList.toggle("active", isActive);
   });
+
+  if (overviewTitle) {
+    overviewTitle.innerHTML = `<i class="fa-solid fa-table-list"></i>${titleMap[active] || "Admin Overview"}`;
+  }
 }
 
 async function logoutAdmin(event) {

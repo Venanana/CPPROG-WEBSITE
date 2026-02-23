@@ -16,48 +16,65 @@
                 <img id="brandLogo" src="barangay-logo.jpg" alt="Barangay logo">
                 <div>
                     <h1 id="systemTitle">BARANGAY REQUEST SYSTEM</h1>
-                    <p>Admin Overview</p>
+                    <p id="adminSubtitle">Admin Request Management</p>
                 </div>
             </div>
-            <div class="header-actions">
-                <a class="header-btn" href="admin-dashboard.html"><i class="fa-solid fa-arrow-left"></i>Back to Dashboard</a>
-                <a class="header-btn danger" href="#" onclick="logoutAdmin(event)"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+            <div class="topbar-right">
+                <div class="header-profile-card">
+                    <div id="adminAvatar" class="admin-avatar">A</div>
+                    <div class="header-profile-copy">
+                        <strong id="adminProfileName">Loading...</strong>
+                        <small id="adminProfileRole">Admin</small>
+                        <span id="adminProfileEmail" class="header-email">-</span>
+                    </div>
+                    <div class="header-profile-meta">
+                        <span id="adminProfileUsername" class="meta-pill">-</span>
+                        <span id="adminProfileContact" class="meta-pill">-</span>
+                    </div>
+                </div>
             </div>
         </header>
 
-        <main class="grid">
-            <nav class="section-nav">
-                <a class="section-link" href="#summary" data-section-link="summary">Request Summary</a>
-                <a class="section-link" href="#residents" data-section-link="residents">Residents</a>
-                <a class="section-link" href="#activity" data-section-link="activity">Recent Activity</a>
-            </nav>
+        <main class="content">
+            <aside class="admin-side-menu">
+                <section class="side-unified-box">
+                    <div class="side-block side-menu-block">
+                        <h3><i class="fa-solid fa-bars"></i>Menu</h3>
+                        <a class="menu-link" href="admin-dashboard.html"><i class="fa-solid fa-inbox"></i>User Submissions</a>
+                        <a class="menu-link" href="#summary" data-section-link="summary"><i class="fa-solid fa-chart-column"></i>Request Summary</a>
+                        <a class="menu-link" href="#residents" data-section-link="residents"><i class="fa-solid fa-users"></i>Residents</a>
+                        <a class="menu-link" href="#activity" data-section-link="activity"><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</a>
+                        <a class="menu-link" href="admin-settings.html"><i class="fa-solid fa-gear"></i>Admin Settings</a>
+                        <a class="menu-link danger" href="#" onclick="logoutAdmin(event)"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+                    </div>
+                </section>
+            </aside>
 
-            <section id="summary" class="panel section-panel">
+            <section class="panel request-panel">
                 <div class="panel-head">
-                    <h2><i class="fa-solid fa-chart-column"></i>Request Summary</h2>
+                    <h2 id="overviewTitle"><i class="fa-solid fa-table-list"></i>Admin Overview</h2>
                 </div>
-                <ul class="summary-list">
-                    <li><span>Total</span><strong id="totalCount">0</strong></li>
-                    <li><span>Pending</span><strong id="pendingCount">0</strong></li>
-                    <li><span>Approved</span><strong id="approvedCount">0</strong></li>
-                    <li><span>Rejected</span><strong id="rejectedCount">0</strong></li>
-                    <li><span>Cancelled</span><strong id="cancelledCount">0</strong></li>
-                </ul>
-            </section>
 
-            <section id="residents" class="panel section-panel">
-                <div class="panel-head">
-                    <h2><i class="fa-solid fa-users"></i>Residents</h2>
-                    <p>Total Registered: <strong id="residentTotalCount">0</strong></p>
-                </div>
-                <ul id="residentQuickList" class="detail-list"></ul>
-            </section>
+                <section id="summary" class="section-panel">
+                    <ul class="summary-list">
+                        <li><span>Total</span><strong id="totalCount">0</strong></li>
+                        <li><span>Pending</span><strong id="pendingCount">0</strong></li>
+                        <li><span>Approved</span><strong id="approvedCount">0</strong></li>
+                        <li><span>Rejected</span><strong id="rejectedCount">0</strong></li>
+                        <li><span>Cancelled</span><strong id="cancelledCount">0</strong></li>
+                    </ul>
+                </section>
 
-            <section id="activity" class="panel section-panel">
-                <div class="panel-head">
-                    <h2><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</h2>
-                </div>
-                <ul id="adminActivityList" class="detail-list"></ul>
+                <section id="residents" class="section-panel">
+                    <div class="section-subhead">
+                        <p>Total Registered: <strong id="residentTotalCount">0</strong></p>
+                    </div>
+                    <ul id="residentQuickList" class="detail-list"></ul>
+                </section>
+
+                <section id="activity" class="section-panel">
+                    <ul id="adminActivityList" class="detail-list"></ul>
+                </section>
             </section>
         </main>
     </div>
