@@ -152,9 +152,9 @@ function getSectionFromHash() {
 function applySectionFromHash() {
   const active = getSectionFromHash();
   const titleMap = {
-    residents: "Residents",
-    activity: "Recent Activity",
-    history: "History"
+    residents: { label: "Residents", icon: "fa-users" },
+    activity: { label: "Recent Activity", icon: "fa-clock-rotate-left" },
+    history: { label: "Approved/Rejected", icon: "fa-check" }
   };
 
   sectionIds.forEach((id) => {
@@ -169,7 +169,8 @@ function applySectionFromHash() {
   });
 
   if (overviewTitle) {
-    overviewTitle.innerHTML = `<i class="fa-solid fa-table-list"></i>${titleMap[active] || "Admin Overview"}`;
+    const title = titleMap[active] || { label: "Admin Overview", icon: "fa-table-list" };
+    overviewTitle.innerHTML = `<i class="fa-solid ${title.icon}"></i> ${title.label}`;
   }
 }
 
