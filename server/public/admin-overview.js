@@ -6,11 +6,7 @@ const rejectedList = document.getElementById("adminRejectedList");
 const archivedList = document.getElementById("adminArchivedList");
 const binList = document.getElementById("adminBinList");
 const adminAvatar = document.getElementById("adminAvatar");
-const adminProfileName = document.getElementById("adminProfileName");
 const adminProfileRole = document.getElementById("adminProfileRole");
-const adminProfileEmail = document.getElementById("adminProfileEmail");
-const adminProfileUsername = document.getElementById("adminProfileUsername");
-const adminProfileContact = document.getElementById("adminProfileContact");
 const overviewTitle = document.getElementById("overviewTitle");
 
 let residents = [];
@@ -47,14 +43,9 @@ function getInitials(name) {
 function renderAdminProfile() {
   const admin = currentAdmin || {};
   const fullName = admin.fullName || admin.username || "Admin User";
-  const roleText = admin.adminRole || "Administrator";
 
   if (adminAvatar) adminAvatar.textContent = getInitials(fullName);
-  if (adminProfileName) adminProfileName.textContent = fullName;
-  if (adminProfileRole) adminProfileRole.textContent = roleText;
-  if (adminProfileEmail) adminProfileEmail.textContent = admin.email || "-";
-  if (adminProfileUsername) adminProfileUsername.textContent = admin.username || "-";
-  if (adminProfileContact) adminProfileContact.textContent = admin.contact || "-";
+  if (adminProfileRole) adminProfileRole.textContent = "System Admin";
 }
 
 function renderResidents() {

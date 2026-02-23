@@ -5,11 +5,7 @@ const activityList = document.getElementById("adminActivityList");
 const detailsModal = document.getElementById("detailsModal");
 const detailsGrid = document.getElementById("detailsGrid");
 const adminAvatar = document.getElementById("adminAvatar");
-const adminProfileName = document.getElementById("adminProfileName");
 const adminProfileRole = document.getElementById("adminProfileRole");
-const adminProfileUsername = document.getElementById("adminProfileUsername");
-const adminProfileEmail = document.getElementById("adminProfileEmail");
-const adminProfileContact = document.getElementById("adminProfileContact");
 
 let requests = [];
 let residents = [];
@@ -82,17 +78,9 @@ function getInitials(name) {
 function renderAdminProfile() {
   const admin = currentAdmin || {};
   const fullName = admin.fullName || admin.username || "Admin User";
-  const roleText = admin.adminRole || "Administrator";
-  const username = admin.username || "-";
-  const email = admin.email || "-";
-  const contact = admin.contact || "-";
 
   if (adminAvatar) adminAvatar.textContent = getInitials(fullName);
-  if (adminProfileName) adminProfileName.textContent = fullName;
-  if (adminProfileRole) adminProfileRole.textContent = roleText;
-  if (adminProfileUsername) adminProfileUsername.textContent = username;
-  if (adminProfileEmail) adminProfileEmail.textContent = email;
-  if (adminProfileContact) adminProfileContact.textContent = contact;
+  if (adminProfileRole) adminProfileRole.textContent = "System Admin";
 }
 
 function renderStats() {

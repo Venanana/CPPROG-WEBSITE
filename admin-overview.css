@@ -61,13 +61,14 @@ body {
 .header-profile-card {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 12px;
-    padding: 8px 10px;
+    padding: 8px 12px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(2px);
-    min-width: 310px;
+    min-width: 0;
 }
 
 .avatar-stack {
