@@ -45,7 +45,8 @@
                         <a class="menu-link" href="admin-dashboard.html"><i class="fa-solid fa-table-list"></i>Overview</a>
                         <a class="menu-link" href="#residents" data-section-link="residents"><i class="fa-solid fa-users"></i>Residents</a>
                         <a class="menu-link" href="#activity" data-section-link="activity"><i class="fa-solid fa-clock-rotate-left"></i>Recent Activity</a>
-                        <a class="menu-link" href="#history" data-section-link="history"><i class="fa-solid fa-check"></i>Approved/Rejected</a>
+                        <a class="menu-link" href="#approved" data-section-link="approved"><i class="fa-solid fa-circle-check"></i>Approved</a>
+                        <a class="menu-link" href="#rejected" data-section-link="rejected"><i class="fa-solid fa-circle-xmark"></i>Rejected</a>
                         <a class="menu-link" href="#archived" data-section-link="archived"><i class="fa-solid fa-folder-open"></i>Archived</a>
                         <a class="menu-link" href="#bin" data-section-link="bin"><i class="fa-solid fa-trash"></i>Bin</a>
                         <a class="menu-link" href="admin-settings.html"><i class="fa-solid fa-gear"></i>Admin Settings</a>
@@ -70,17 +71,14 @@
                     <ul id="adminActivityList" class="detail-list"></ul>
                 </section>
 
-                <section id="history" class="section-panel">
-                    <div class="history-groups">
-                        <div class="history-group">
-                            <h3 class="history-heading approved"><i class="fa-solid fa-circle-check"></i>Approved</h3>
-                            <ul id="adminApprovedList" class="detail-list"></ul>
-                        </div>
-                        <div class="history-group">
-                            <h3 class="history-heading rejected"><i class="fa-solid fa-circle-xmark"></i>Rejected</h3>
-                            <ul id="adminRejectedList" class="detail-list"></ul>
-                        </div>
-                    </div>
+                <section id="approved" class="section-panel">
+                    <h3 class="history-heading approved"><i class="fa-solid fa-circle-check"></i>Approved</h3>
+                    <ul id="adminApprovedList" class="detail-list"></ul>
+                </section>
+
+                <section id="rejected" class="section-panel">
+                    <h3 class="history-heading rejected"><i class="fa-solid fa-circle-xmark"></i>Rejected</h3>
+                    <ul id="adminRejectedList" class="detail-list"></ul>
                 </section>
 
                 <section id="archived" class="section-panel">

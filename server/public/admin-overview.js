@@ -18,7 +18,7 @@ let activity = [];
 let requests = [];
 let settings = null;
 let currentAdmin = null;
-const sectionIds = ["residents", "activity", "history", "archived", "bin"];
+const sectionIds = ["residents", "activity", "approved", "rejected", "archived", "bin"];
 
 function escapeHtml(value) {
   return String(value || "")
@@ -110,7 +110,7 @@ function renderHistoryGroup(targetList, rows, statusText, iconClass) {
   `).join("");
 }
 
-function renderHistory() {
+function renderApprovalSections() {
   const approved = requests
     .filter((item) => item.status === "Approved")
     .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
@@ -191,7 +191,7 @@ function renderAll() {
   renderAdminProfile();
   renderResidents();
   renderActivity();
-  renderHistory();
+  renderApprovalSections();
   renderArchived();
   renderBin();
   applySectionFromHash();
@@ -203,6 +203,7 @@ function getSectionFromHash() {
     window.location.href = "admin-dashboard.html";
     return "residents";
   }
+  if (hash === "history") return "approved";
   return sectionIds.includes(hash) ? hash : "residents";
 }
 
@@ -211,7 +212,8 @@ function applySectionFromHash() {
   const titleMap = {
     residents: { label: "Residents", icon: "fa-users" },
     activity: { label: "Recent Activity", icon: "fa-clock-rotate-left" },
-    history: { label: "Approved/Rejected", icon: "fa-check" },
+    approved: { label: "Approved", icon: "fa-circle-check" },
+    rejected: { label: "Rejected", icon: "fa-circle-xmark" },
     archived: { label: "Archived", icon: "fa-folder-open" },
     bin: { label: "Bin", icon: "fa-trash" }
   };
